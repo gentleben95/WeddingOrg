@@ -22,12 +22,12 @@ namespace WeddingOrg.Repositories
         {
             var wedding = await _dbContext.Weddings
                 .Include(x => x.Bride)
-                .Include(x => x.Groom)             
+                .Include(x => x.Groom)   
                 .ToListAsync(cancellationToken);
-            var photograph = await _dbContext.Photographers.ToListAsync(cancellationToken);
-            var cameraman = await _dbContext.Cameramen.ToListAsync(cancellationToken);
-            var restaurant = await _dbContext.Restaurants.ToListAsync(cancellationToken);
-                
+            //var photograph = await _dbContext.Photographers.ToListAsync(cancellationToken);
+            //var cameraman = await _dbContext.Cameramen.ToListAsync(cancellationToken);
+            //var restaurant = await _dbContext.Restaurants.ToListAsync(cancellationToken);
+            //return (wedding, photograph, cameraman, restaurant);
             return wedding;
         }
         public async Task<Wedding>? GetWeddingsById(int id, CancellationToken cancellationToken)
