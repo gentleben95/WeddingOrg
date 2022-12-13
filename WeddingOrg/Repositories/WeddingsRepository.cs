@@ -24,12 +24,9 @@ namespace WeddingOrg.Repositories
             var wedding = await _dbContext.Weddings
                 .Include(x => x.Bride)
                 .Include(x => x.Groom)   
-                .ToListAsync(cancellationToken);
-
-           
+                .ToListAsync(cancellationToken);           
             var cameraman = await _dbContext.Cameramen.ToListAsync(cancellationToken);
             var restaurant = await _dbContext.Restaurants.ToListAsync(cancellationToken);
-            //return (wedding, photograph, cameraman, restaurant);
             return wedding;
         }
         public async Task<IEnumerable<Photographer>> GetPhotographers(CancellationToken cancellationToken)
@@ -50,20 +47,14 @@ namespace WeddingOrg.Repositories
                 .ToListAsync(cancellationToken);
             return restaurant;
         }
-        public async Task<FullWeedingView> GetWeddingById(int id, CancellationToken cancellationToken)
+        public async Task<Wedding> GetWeddingById(int id, CancellationToken cancellationToken)
         {
             var wedding = await _dbContext.Weddings.SingleOrDefaultAsync(w => w.Id == id);
             if (wedding == default)
             {
                 throw new WeddingNotFoundException($"Wedding with {id} does not exist.");
             }
-
-            var photograph = await _dbContext.Photographers
-              .SingleOrDefaultAsync(p => p.Weddings.Contains(wedding));
-
-            var fullView = new FullWeedingView() { WeddingView = wedding, PhotographerView = photograph };
-
-            return fullView;
+            return wedding;
         }
         public async Task<Bride> GetBrideById(int id, CancellationToken cancellationToken)
         {
@@ -135,10 +126,9 @@ namespace WeddingOrg.Repositories
             };
             await _dbContext.Weddings.AddAsync(wedding, cancellationToken);
             await _dbContext.SaveChangesAsync();
-            return wedding.Id;
-            
-        }
-        public async Task<int> CreatePhotograph(UpdatePhotographerDto dto, CancellationToken cancellationToken)
+            return wedding.Id;          
+        }        
+        public async Task<int> CreatePhotographer(UpdatePhotographerDto dto, CancellationToken cancellationToken)
         {
             Photographer photographer = new()
             {
@@ -265,6 +255,30 @@ namespace WeddingOrg.Repositories
             _dbContext.Restaurants.Remove(restaurantDeletion);
             await _dbContext.SaveChangesAsync();
             return restaurantDeletion.Id;
+        }
+        public async Task<Wedding> AddPhotographerToWedding(int weddingId, int photographerId, CancellationToken cancellationToken)
+        {
+            var photographer = await _dbContext.Photographers.SingleOrDefaultAsync(p => p.Id == photographerId, cancellationToken);
+            var wedding = await _dbContext.Weddings.SingleOrDefaultAsync(p => p.Id == weddingId, cancellationToken);
+            wedding.Photographer = photographer;
+            await _dbContext.SaveChangesAsync();
+            return wedding;
+        }
+        public async Task<Wedding> AddCameramanToWedding(int weddingId, int cameramanId, CancellationToken cancellationToken)
+        {
+            var cameraman = await _dbContext.Cameramen.SingleOrDefaultAsync(p => p.Id == cameramanId, cancellationToken);
+            var wedding = await _dbContext.Weddings.SingleOrDefaultAsync(p => p.Id == weddingId, cancellationToken);
+            wedding.Cameraman = cameraman;
+            await _dbContext.SaveChangesAsync();
+            return wedding;
+        }
+        public async Task<Wedding> AddRestaurantToWedding(int weddingId, int restaurantId, CancellationToken cancellationToken)
+        {
+            var restaurant = await _dbContext.Restaurants.SingleOrDefaultAsync(p => p.Id == restaurantId, cancellationToken);
+            var wedding = await _dbContext.Weddings.SingleOrDefaultAsync(p => p.Id == weddingId, cancellationToken);
+            wedding.Restaurant = restaurant;
+            await _dbContext.SaveChangesAsync();
+            return wedding;
         }
     }
 }

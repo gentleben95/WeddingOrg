@@ -36,7 +36,7 @@ namespace WeddingOrg.Controllers
         public async Task<ActionResult<FullWeedingView>> GetWeddingsById(int id, CancellationToken cancellationToken)
         {
             var wedding = await _weddingsRepository.GetWeddingById(id, cancellationToken);
-            if (wedding == default) { return BadRequest($"Nie ma wesela z ID numer [{id}]"); }
+            if (wedding == default) { return BadRequest($"Nie ma wesela z ID o numerze [{id}]"); }
             return Ok(wedding);
         }              
         [HttpPost]
@@ -51,11 +51,12 @@ namespace WeddingOrg.Controllers
             var wedding = _weddingsRepository.ChangeWedding(id, dto, cancellationToken);
         }
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteWeddingById(int id, CancellationToken cancellationToken)
         {
             var wedding = await _weddingsRepository.DeleteWeddingById(id, cancellationToken);
-            if (wedding == default) { return BadRequest($"Nie ma wesela z ID numer [{id}]"); }
+            if (wedding == default) { return BadRequest($"Nie ma wesela z ID o numerze [{id}]"); }
             return Ok();
-        }   
+        }
+        
     }
 }
