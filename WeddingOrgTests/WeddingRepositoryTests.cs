@@ -22,10 +22,6 @@ namespace WeddingOrgTests
             
 
             //Assert
-
         }
-
-
-
     }
 }

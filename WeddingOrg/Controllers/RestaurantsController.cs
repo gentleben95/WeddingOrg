@@ -6,7 +6,6 @@ using WeddingOrg.Repositories;
 using System.Collections;
 using Microsoft.AspNetCore.Server.IIS.Core;
 using WeddingOrg.DTOs;
-using WeddingOrg.Views;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,30 +13,30 @@ namespace WeddingOrg.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class WeddingsController : ControllerBase
+    public class RestaurantsController : ControllerBase
     {
  
         private readonly IWeddingsRepository _weddingsRepository;
 
-        public WeddingsController(IWeddingsRepository weddingsRepository)
+        public RestaurantsController(IWeddingsRepository weddingsRepository)
         {
             _weddingsRepository = weddingsRepository;
         }
         // GET: api/<WeddingsController>
-        [HttpGet]
-        public async Task<IEnumerable<Wedding>> GetWeddings(CancellationToken cancellationToken)
-        {
-            var wedding = await _weddingsRepository.GetWeddingsBridesGrooms(cancellationToken);
-            return wedding;
-        }
+        //[HttpGet]
+        //public async Task<IEnumerable<Wedding>> GetWeddings(CancellationToken cancellationToken)
+        //{
+        //    var wedding = await _weddingsRepository.GetWeddings(cancellationToken);
+        //    return wedding;
+        //}
 
         //GET api/<WeddingsController>/5 
         [HttpGet("{id}")]
-        public async Task<ActionResult<FullWeedingView>> GetWeddingsById(int id, CancellationToken cancellationToken)
+        public async Task<ActionResult<int>> GetWeddingsById(int id, CancellationToken cancellationToken)
         {
             var wedding = await _weddingsRepository.GetWeddingById(id, cancellationToken);
             if (wedding == default) { return BadRequest($"Nie ma wesela z ID numer [{id}]"); }
-            return Ok(wedding);
+            return Ok(wedding + $"Znaleziono wesele z ID numer [{id}]");
         }              
         [HttpPost]
         public async Task<IActionResult> CreateWedding ([FromBody]UpdateWeddingBrideGroomDto dto, CancellationToken cancellationToken)
@@ -56,6 +55,7 @@ namespace WeddingOrg.Controllers
             var wedding = await _weddingsRepository.DeleteWeddingById(id, cancellationToken);
             if (wedding == default) { return BadRequest($"Nie ma wesela z ID numer [{id}]"); }
             return Ok();
-        }   
+        }      
+       
     }
 }

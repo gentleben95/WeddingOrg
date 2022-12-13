@@ -12,7 +12,7 @@ using WeddingOrg.Data;
 namespace WeddingOrg.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221208182727_init")]
+    [Migration("20221209134555_init")]
     partial class init
     {
         /// <inheritdoc />
