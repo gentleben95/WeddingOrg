@@ -2,7 +2,7 @@
 
 namespace WeddingOrg.Views;
 
-public class FullWeedingView
+public class FullWeddingView
 {
     //TODO: Change names.
     public Wedding WeddingView { get; set; }

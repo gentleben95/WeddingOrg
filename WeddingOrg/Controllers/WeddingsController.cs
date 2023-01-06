@@ -33,7 +33,7 @@ namespace WeddingOrg.Controllers
 
         //GET api/<WeddingsController>/5 
         [HttpGet("{id}")]
-        public async Task<ActionResult<FullWeedingView>> GetWeddingsById(int id, CancellationToken cancellationToken)
+        public async Task<ActionResult<FullWeddingView>> GetWeddingsById(int id, CancellationToken cancellationToken)
         {
             var wedding = await _weddingsRepository.GetWeddingById(id, cancellationToken);
             if (wedding == default) { return BadRequest($"Nie ma wesela z ID o numerze [{id}]"); }
