@@ -19,7 +19,7 @@ namespace WeddingOrg.Repositories
         {
             _dbContext = dbContext;
         }
-        public async Task<IEnumerable<Wedding>> GetWeddingsBridesGrooms(CancellationToken cancellationToken)
+        public async Task<IEnumerable<Wedding>> GetWeddings(CancellationToken cancellationToken)
         {
             var wedding = await _dbContext.Weddings
                 .Include(x => x.Bride)

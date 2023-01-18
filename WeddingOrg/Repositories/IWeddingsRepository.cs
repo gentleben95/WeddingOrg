@@ -9,7 +9,7 @@ namespace WeddingOrg.Repositories
     public interface IWeddingsRepository
     {
         // Get        
-        Task<IEnumerable<Wedding>> GetWeddingsBridesGrooms(CancellationToken cancellationToken);        
+        Task<IEnumerable<Wedding>> GetWeddings(CancellationToken cancellationToken);        
         Task<IEnumerable<Photographer>> GetPhotographers(CancellationToken cancellationToken);
         Task<IEnumerable<Cameraman>> GetCameramen(CancellationToken cancellationToken);
         Task<IEnumerable<Restaurant>> GetRestaurants(CancellationToken cancellationToken);
