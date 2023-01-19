@@ -8,13 +8,13 @@
       "connectionId": "WeddingOrg-Azure",
       "dynamicId": null
     },
-    "apis1": {
-      "type": "apis"
-    },
     "mssql1": {
       "type": "mssql",
       "connectionId": "ConnectionStrings:Default",
       "dynamicId": null
+    },
+    "apis1": {
+      "type": "apis"
     }
   }
 }
