@@ -25,7 +25,7 @@ namespace WeddingOrg.Controllers
         }
         // GET: api/<WeddingsController>
         [HttpGet]
-        public async Task<IEnumerable<Wedding>> GetWeddings(CancellationToken cancellationToken)
+        public async Task<IEnumerable<Wedding>> GetWeddings(CancellationToken cancellationToken = default)
         {
             var wedding = await _weddingsRepository.GetWeddings(cancellationToken);
             return wedding;
