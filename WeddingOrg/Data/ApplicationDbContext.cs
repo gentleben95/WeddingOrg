@@ -7,6 +7,7 @@ namespace WeddingOrg.Data
     {
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
+
         }
         public DbSet<Wedding> Weddings { get; set; }
         public DbSet<Bride> Brides { get; set; }
