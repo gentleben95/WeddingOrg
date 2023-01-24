@@ -8,11 +8,11 @@ namespace WeddingOrg.Data
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
         }
-        internal DbSet<Wedding> Weddings { get; set; }
-        internal DbSet<Bride> Brides { get; set; }
-        internal DbSet<Groom> Grooms { get; set; }
-        internal DbSet<Photographer> Photographers { get; set; }
-        internal DbSet<Cameraman> Cameramen { get; set; }
-        internal DbSet<Restaurant> Restaurants { get; set; }
+        public DbSet<Wedding> Weddings { get; set; }
+        public DbSet<Bride> Brides { get; set; }
+        public DbSet<Groom> Grooms { get; set; }
+        public DbSet<Photographer> Photographers { get; set; }
+        public DbSet<Cameraman> Cameramen { get; set; }
+        public DbSet<Restaurant> Restaurants { get; set; }
     }
 }
