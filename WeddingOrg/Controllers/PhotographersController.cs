@@ -23,7 +23,7 @@ namespace WeddingOrg.Controllers
         }
         // GET: api/<WeddingsController>
         [HttpGet]
-        public async Task<IEnumerable<Photographer>> GetPhotographers(CancellationToken cancellationToken)
+        public async Task<IEnumerable<Photographer>> GetPhotographers(CancellationToken cancellationToken = default)
         {
             var photographer = await _weddingsRepository.GetPhotographers(cancellationToken);
             return photographer;

@@ -17,10 +17,11 @@ namespace WeddingOrgBlazor
             // Add services to the container.
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
-            builder.Services.AddSingleton<WeatherForecastService>();
-
             builder.Services.AddScoped<IWeddingsRepository, WeddingsRepository>();
             builder.Services.AddScoped<WeddingsController>();
+            builder.Services.AddScoped<PhotographersController>();
+            builder.Services.AddScoped<CameramenController>();
+            builder.Services.AddScoped<RestaurantsController>();
             builder.Services.AddDbContext<ApplicationDbContext>(options
                 => options.UseSqlServer(
                     builder.Configuration.GetConnectionString("DefaultConnection")));

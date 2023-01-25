@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Radzen.Blazor" Version="4.6.2" />
+    <PackageReference Include="Radzen.Blazor.GridExportOptions" Version="3.3.0" />
+    <PackageReference Include="Radzen.Design" Version="0.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\WeddingOrg\WeddingOrg.csproj" />
   </ItemGroup>
 

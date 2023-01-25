@@ -24,7 +24,7 @@ namespace WeddingOrg.Controllers
         }
         // GET: api/<WeddingsController>
         [HttpGet]
-        public async Task<IEnumerable<Cameraman>> GetCameramen(CancellationToken cancellationToken)
+        public async Task<IEnumerable<Cameraman>> GetCameramen(CancellationToken cancellationToken = default)
         {
             var cameraman = await _weddingsRepository.GetCameramen(cancellationToken);
             return cameraman;
@@ -59,7 +59,7 @@ namespace WeddingOrg.Controllers
         [HttpPut("{weddingId}/concatenatecamera")]
         public async Task<IActionResult> AddCameramanToWedding(int weddingId, [FromBody] int cameramanId, CancellationToken cancellationToken)
         {
-            var cameraman = await _weddingsRepository.AddPhotographerToWedding(weddingId, cameramanId, cancellationToken);
+            var cameraman = await _weddingsRepository.AddCameramanToWedding(weddingId, cameramanId, cancellationToken);
             if (cameraman == default) { return NotFound($"Nie ma kamerzysty z ID o numerze [{cameramanId}]"); }
             if (weddingId == default) { return NotFound($"Nie ma wesela z ID o numerze [{weddingId}]"); }
             return Ok();
