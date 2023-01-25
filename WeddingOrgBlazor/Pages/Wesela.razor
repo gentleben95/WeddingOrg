@@ -15,7 +15,7 @@
 else
 {
     <div class="form-group">
-        <input class="form-control" type="text" placeholder="Filter..."
+        <input class="form-control" type="text" placeholder="Filtruj..."
            @bind="Filter"
            @bind:event="oninput">
     </div>
@@ -89,25 +89,22 @@ else
             return true;
         if (wedding1.DateOfSigningTheContract.Contains(Filter, StringComparison.OrdinalIgnoreCase) )
     return true;
-        //if (wedding1.Bride.PhoneNumber.Contains(Filter, StringComparison.OrdinalIgnoreCase))
-        //    return true;
-        //if (wedding1.Bride.Name.Contains(Filter, StringComparison.OrdinalIgnoreCase))
-        //    return true;
-        //if (wedding1.Groom.PhoneNumber.Contains(Filter, StringComparison.OrdinalIgnoreCase))
-        //    return true;
-        //if (wedding1.Groom.Name.Contains(Filter, StringComparison.OrdinalIgnoreCase))
-        //    return true;
-        //if (wedding1.DateOfSigningTheContract.Contains(Filter, StringComparison.OrdinalIgnoreCase))
-        //    return true;
-        //if (cameraman1.Facebook.Contains(Filter, StringComparison.OrdinalIgnoreCase))
-        //    return true;
-        //if (photographer1.Facebook.Contains(Filter, StringComparison.OrdinalIgnoreCase))
-        //    return true;
-        //if (restaurant1.Facebook.Contains(Filter, StringComparison.OrdinalIgnoreCase))
-        //    return true;
-
-        //if (wedding1.DateOfSigningTheContract.ToString().StartsWith(Filter) || forecast.TemperatureF.ToString().StartsWith(Filter))
-        //    return true;
+        if (wedding1.Bride.PhoneNumber.Contains(Filter, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (wedding1.Bride.Name.Contains(Filter, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (wedding1.Groom.PhoneNumber.Contains(Filter, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (wedding1.Groom.Name.Contains(Filter, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (wedding1.DateOfSigningTheContract.Contains(Filter, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (wedding1.Cameraman.Facebook.Contains(Filter, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (wedding1.Photographer.Facebook.Contains(Filter, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (wedding1.Restaurant.Facebook.Contains(Filter, StringComparison.OrdinalIgnoreCase))
+            return true;
 
         return false;
     }
