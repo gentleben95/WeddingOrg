@@ -101,7 +101,7 @@ namespace WeddingOrg.Repositories
             }
             return restaurant;
         }
-        public async Task<int> CreateWeedingBrideGroom(UpdateWeddingBrideGroomDto dto, CancellationToken cancellationToken)
+        public async Task<int> CreateWeedingBrideGroom(UpdateWeddingBrideGroomDto dto)
         {
             Bride bride = new Bride()
             {
@@ -124,40 +124,40 @@ namespace WeddingOrg.Repositories
                 Bride = bride,
                 Groom = groom,
             };
-            await _dbContext.Weddings.AddAsync(wedding, cancellationToken);
+            await _dbContext.Weddings.AddAsync(wedding);
             await _dbContext.SaveChangesAsync();
             return wedding.Id;          
         }        
-        public async Task<int> CreatePhotographer(UpdatePhotographerDto dto, CancellationToken cancellationToken)
+        public async Task<int> CreatePhotographer(UpdatePhotographerDto dto)
         {
             Photographer photographer = new()
             {
                 Facebook = dto.photographerFacebook,
                 Instagram = dto.photographerInstagram,
             };
-            await _dbContext.AddAsync(photographer, cancellationToken);
+            await _dbContext.AddAsync(photographer);
             await _dbContext.SaveChangesAsync();
             return photographer.Id; 
         }
-        public async Task<int> CreateCameraman(UpdateCameramanDto dto, CancellationToken cancellationToken)
+        public async Task<int> CreateCameraman(UpdateCameramanDto dto)
         {
             Cameraman cameraman = new()
             {
                 Facebook = dto.cameramanFacebook,
                 Instagram = dto.cameramanInstagram,
             };
-            await _dbContext.AddAsync(cameraman, cancellationToken);
+            await _dbContext.AddAsync(cameraman);
             await _dbContext.SaveChangesAsync();
             return cameraman.Id;
         }
-        public async Task<int> CreateRestaurant(UpdateRestaurantDto dto, CancellationToken cancellationToken)
+        public async Task<int> CreateRestaurant(UpdateRestaurantDto dto)
         {
             Restaurant restaurant = new()
             {
                 Facebook = dto.restaurantFacebook,
                 Instagram = dto.restaurantInstagram,
             };
-            await _dbContext.AddAsync(restaurant, cancellationToken);
+            await _dbContext.AddAsync(restaurant);
             await _dbContext.SaveChangesAsync();
             return restaurant.Id;
         }

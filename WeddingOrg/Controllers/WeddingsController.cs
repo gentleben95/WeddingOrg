@@ -40,9 +40,9 @@ namespace WeddingOrg.Controllers
             return Ok(wedding);
         }              
         [HttpPost]
-        public async Task<IActionResult> CreateWedding ([FromBody]UpdateWeddingBrideGroomDto dto, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateWedding ([FromBody]UpdateWeddingBrideGroomDto dto)
         {
-            await _weddingsRepository.CreateWeedingBrideGroom(dto, cancellationToken);
+            await _weddingsRepository.CreateWeedingBrideGroom(dto);
             return NoContent();
         }
         [HttpPut("{id}")]

@@ -39,9 +39,9 @@ namespace WeddingOrg.Controllers
             return Ok(cameraman + $"Znaleziono kamerzysty z ID o numerze [{id}]");
         }
         [HttpPost]
-        public async Task<IActionResult> CreateCameraman([FromBody] UpdateCameramanDto dto, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateCameraman([FromBody] UpdateCameramanDto dto)
         {
-            await _weddingsRepository.CreateCameraman(dto, cancellationToken);
+            await _weddingsRepository.CreateCameraman(dto);
             return NoContent();
         }
         [HttpPut("{id}")]

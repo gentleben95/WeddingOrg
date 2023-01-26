@@ -23,10 +23,10 @@ namespace WeddingOrg.Repositories
         Task<Restaurant> GetRestaurantById(int id, CancellationToken cancellationToken);
 
         //Create 
-        Task<int> CreateWeedingBrideGroom(UpdateWeddingBrideGroomDto dto, CancellationToken cancellationToken);
-        Task<int> CreatePhotographer(UpdatePhotographerDto dto, CancellationToken cancellationToken);
-        Task<int> CreateCameraman(UpdateCameramanDto dto, CancellationToken cancellationToken);
-        Task<int> CreateRestaurant(UpdateRestaurantDto dto, CancellationToken cancellationToken);
+        Task<int> CreateWeedingBrideGroom(UpdateWeddingBrideGroomDto dto);
+        Task<int> CreatePhotographer(UpdatePhotographerDto dto);
+        Task<int> CreateCameraman(UpdateCameramanDto dto);
+        Task<int> CreateRestaurant(UpdateRestaurantDto dto);
 
         //Change
         Task<int> ChangeWedding(int weddingId, UpdateWeddingDto dto, CancellationToken cancellationToken);

@@ -38,9 +38,9 @@ namespace WeddingOrg.Controllers
             return Ok(wedding + $"Znaleziono restaurację z ID o numerze [{id}]");
         }              
         [HttpPost]
-        public async Task<IActionResult> CreateRestaurant ([FromBody]UpdateRestaurantDto dto, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateRestaurant ([FromBody]UpdateRestaurantDto dto)
         {
-            await _weddingsRepository.CreateRestaurant(dto, cancellationToken);
+            await _weddingsRepository.CreateRestaurant(dto);
             return NoContent();
         }
         [HttpPut("{id}")]

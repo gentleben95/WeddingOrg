@@ -38,9 +38,9 @@ namespace WeddingOrg.Controllers
             return Ok(photographer + $"Znaleziono fotografa z ID o numerze [{id}]");
         }
         [HttpPost]
-        public async Task<IActionResult> CreatePhotographer([FromBody] UpdatePhotographerDto dto, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreatePhotographer([FromBody] UpdatePhotographerDto dto)
         {
-            await _weddingsRepository.CreatePhotographer(dto, cancellationToken);
+            await _weddingsRepository.CreatePhotographer(dto);
             return NoContent();
         }
         [HttpPut("{id}")]
