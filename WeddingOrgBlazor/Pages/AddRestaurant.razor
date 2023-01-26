@@ -1,0 +1,89 @@
+﻿@page "/addrestaurant"
+
+@inject WeddingOrg.Controllers.RestaurantsController RestaurantsController
+@using WeddingOrg.DTOs
+<PageTitle>Dodaj restaurację</PageTitle>
+<RadzenTemplateForm TItem="FilledInfo" Data=@fbInsta Submit=@OnSubmit>
+    <RadzenCard Class="my-5 mx-auto" Style="max-width: 400px;">
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Facebook restauracji</RadzenText>
+        <RadzenMask CharacterPattern="[0-10]" Placeholder="facebook.com" Name="Facebook" @bind-Value=@fbInsta.Facebook Change=@(args => OnChange(args, "Telephone")) Style="width: 100%;" />
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Class="mt-4">Instagram restauracji</RadzenText>
+        <RadzenMask Mask="**** **** **** ****" CharacterPattern="[0-9]" Placeholder="instagram.com" Name="Instagram" @bind-Value=@fbInsta.Instagram Change=@(args => OnChange(args, "Credit Card")) Style="width: 100%;" />
+        <div class="row">
+            <div class="col-md-12 d-flex align-items-end justify-content-left mt-4">
+                <RadzenButton ButtonType="ButtonType.Submit"  Text="dodaj" />
+                <RadzenButton ButtonStyle="ButtonStyle.Light" style="margin-left: 10px;" Text="anuluj" />
+            </div>
+        </div>
+    </RadzenCard>
+</RadzenTemplateForm>
+<EventConsole @ref=@console Class="mt-4" />
+<div class="form-group">
+    <input class="form-control" type="text" placeholder="Filtruj..."
+           @bind="Filter"
+           @bind:event="oninput">
+</div>
+<table class="table table-striped">
+    <thead class="thead-light">
+        <tr>
+            <th>ID</th>
+            <th>Facebook Fotografa</th>
+            <th>Instagram Fotografa</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var restaurant in Restaurants)
+        {
+            if (!IsVisible(restaurant))
+                continue;
+            <tr>
+                <td>
+                    @restaurant.Id
+                </td>     
+                <td>
+                    @restaurant.Facebook
+                </td>
+                <td>
+                    @restaurant.Instagram
+                </td>
+             </tr>
+        }
+    </tbody>
+</table>
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        Restaurants = (await RestaurantsController.GetRestaurants()).ToList();
+    }
+    private List<WeddingOrg.Models.Restaurant> Restaurants = new();
+
+    public class FilledInfo
+    {
+        public string Facebook { get; set; }
+        public string Instagram { get; set; }
+    }
+    FilledInfo fbInsta = new FilledInfo();
+    void OnSubmit(FilledInfo arg)
+    {
+        var updateRestaurantsDto = new UpdateRestaurantDto(fbInsta.Facebook, fbInsta.Instagram);
+        RestaurantsController.CreateRestaurant(updateRestaurantsDto);
+    }
+    EventConsole console;
+
+    void OnChange(string value, string name)
+    {
+        console.Log($"{name} value changed to {value}");
+    }
+    public string Filter { get; set; }
+    public bool IsVisible(WeddingOrg.Models.Restaurant restaurant1)
+    {
+        if (string.IsNullOrEmpty(Filter))
+            return true;
+        if (restaurant1.Facebook.Contains(Filter, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (restaurant1.Instagram.Contains(Filter, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    }
+}

@@ -1,0 +1,162 @@
+﻿@page "/addweddings"
+@inject WeddingOrg.Controllers.WeddingsController WeddingsController
+@using WeddingOrg.DTOs
+<PageTitle>Dodaj wesele</PageTitle>
+<RadzenTemplateForm TItem="FilledInfo" Data=@addWedding Submit=@OnSubmit>
+    <RadzenCard Class="my-5 mx-auto" Style="max-width: 400px;">
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Data podpisania umowy*</RadzenText>
+        <RadzenMask CharacterPattern="[6-10]" Placeholder="dd.mm.rrrr" Name="DateOfSigning" @bind-Value=@addWedding.DateOfSigning 
+                    Change=@(args => OnChange(args, "Data podpisania umowy")) Style="width: 100%;" />
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Class="mt-4">Data wesela*</RadzenText>
+        <RadzenMask CharacterPattern="[6-10]" Placeholder="dd.mm.rrrr" Name="DateOfWedding" @bind-Value=@addWedding.DateOfWedding 
+                    Change=@(args => OnChange(args, "Data wesela")) Style="width: 100%;" />
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Class="mt-4">Pann młoda - imię*</RadzenText>
+        <RadzenMask CharacterPattern="[3-15]" Placeholder="np. Agnieszka" Name="BrideName" @bind-Value=@addWedding.BrideName 
+                    Change=@(args => OnChange(args, "Panna młoda - imię")) Style="width: 100%;" />
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Class="mt-4">Pann młoda - numer telefonu*</RadzenText>
+        <RadzenMask CharacterPattern="[9-16]" Placeholder="np. 555 666 888" Name="BridePhoneNumber" @bind-Value=@addWedding.BridePhoneNumber
+                    Change=@(args => OnChange(args, "Panna młoda - nr tel.")) Style="width: 100%;" />
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Class="mt-4">Pann młoda - email</RadzenText>
+        <RadzenMask CharacterPattern="[0-35]" Placeholder="np. agnieszka@gmail.com" Name="BrideEmail" @bind-Value=@addWedding.BrideEmail
+                    Change=@(args => OnChange(args, "Panna młoda - email")) Style="width: 100%;" />
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Class="mt-4">Pann młoda - instagram</RadzenText>
+        <RadzenMask CharacterPattern="[0-35]" Placeholder="np. agnieszka.instagram.com" Name="BrideInstagram" @bind-Value=@addWedding.BrideInstagram
+                    Change=@(args => OnChange(args, "Panna młoda - instagram")) Style="width: 100%;" />
+
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Class="mt-4">Pan młody - imię*</RadzenText>
+        <RadzenMask CharacterPattern="[3-15]" Placeholder="np. Tomasz" Name="GroomName" @bind-Value=@addWedding.GroomName 
+                    Change=@(args => OnChange(args, "Pan młody - imię")) Style="width: 100%;" />
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Class="mt-4">Pan młody - numer telefonu*</RadzenText>
+        <RadzenMask CharacterPattern="[9-16]" Placeholder="np. 555 666 888" Name="GroomPhoneNumber" @bind-Value=@addWedding.GroomPhoneNumber
+                    Change=@(args => OnChange(args, "Pan młody - nr tel.")) Style="width: 100%;" />
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Class="mt-4">Pan młody - email</RadzenText>
+        <RadzenMask CharacterPattern="[0-35]" Placeholder="np. tomasz@gmail.com" Name="GroomEmail" @bind-Value=@addWedding.GroomEmail
+                    Change=@(args => OnChange(args, "Pan młody - email")) Style="width: 100%;" />
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Class="mt-4">Pan młody - instagram</RadzenText>
+        <RadzenMask CharacterPattern="[0-35]" Placeholder="np. tomasz.instagram.com" Name="GroomInstagram" @bind-Value=@addWedding.GroomInstagram
+                    Change=@(args => OnChange(args, "Pan młody - instagram")) Style="width: 100%;" />
+            <div class="row">
+            <div class="col-md-12 d-flex align-items-end justify-content-left mt-4">
+                <RadzenButton ButtonType="ButtonType.Submit"  Text="Dodaj" />
+                <RadzenButton ButtonStyle="ButtonStyle.Light" style="margin-left: 10px;" Text="anuluj" />
+            </div>
+        </div>
+    </RadzenCard>
+</RadzenTemplateForm>
+<EventConsole @ref=@console Class="mt-4" />
+<div class="form-group">
+    <input class="form-control" type="text" placeholder="Filtruj..."
+           @bind="Filter"
+           @bind:event="oninput">
+</div>
+<table class="table table-striped">
+    <thead class="thead-light">
+        <tr>
+                <th>ID</th>
+                <th>Data umowy</th>
+                <th>Data wesela</th>
+                <th>Panna młoda</th>
+                <th>Pan młody</th>
+                <th>Fotograf</th>
+                <th>Kamerzysta</th>
+                <th>Restauracja</th>
+            </tr>
+    </thead>
+    <tbody>
+        @foreach (var wedding in Weddings)
+        {
+            if (!IsVisible(wedding))
+                continue;
+            <tr>
+                <td>
+                    @wedding.Id
+                </td>
+                <td>
+                    @wedding.DateOfSigningTheContract
+                </td>
+                <td>
+
+                    @wedding.DateOfTheWedding
+                </td>
+                <td>
+                    @wedding.Bride.Name, @wedding.Bride.PhoneNumber
+                </td>
+                <td>
+                    @wedding.Groom.Name, @wedding.Groom.PhoneNumber
+                </td>
+                <td>
+                    @wedding.Photographer.Facebook
+                </td>
+                <td>
+                    @wedding.Cameraman.Facebook
+                </td>
+                <td>
+                    @wedding.Restaurant.Facebook
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        Weddings = (await WeddingsController.GetWeddings()).ToList();
+    }
+    private List<WeddingOrg.Models.Wedding> Weddings = new();
+
+    public class FilledInfo
+    {
+        public string DateOfSigning { get; set; }
+        public string DateOfWedding { get; set; }
+
+        public string BrideName { get; set; } = "";
+        public string BridePhoneNumber { get; set; } = "";
+        public string BrideEmail { get; set; } = "";
+        public string BrideInstagram { get; set; } = "";
+
+        public string GroomName { get; set; } = "";
+        public string GroomPhoneNumber { get; set; } = "";
+        public string GroomEmail { get; set; } = "";
+        public string GroomInstagram { get; set; } = "";
+    }
+    FilledInfo addWedding = new FilledInfo();
+    void OnSubmit(FilledInfo arg)
+    {
+        var updateWeddingDto = new UpdateWeddingBrideGroomDto(addWedding.DateOfSigning, addWedding.DateOfWedding, 
+            addWedding.BrideEmail, addWedding.BrideName, addWedding.BridePhoneNumber, addWedding.BrideInstagram, 
+            addWedding.GroomName, addWedding.GroomPhoneNumber, addWedding.GroomEmail, addWedding.GroomInstagram);
+        WeddingsController.CreateWedding(updateWeddingDto);
+    }
+    EventConsole console;
+
+    void OnChange(string value, string name)
+    {
+        console.Log($"{name} value changed to {value}");
+    }
+    public string Filter { get; set; }
+    public bool IsVisible(
+        WeddingOrg.Models.Wedding wedding1)
+    {
+        if (string.IsNullOrEmpty(Filter))
+            return true;
+        if (wedding1.DateOfSigningTheContract.Contains(Filter, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (wedding1.Bride.PhoneNumber.Contains(Filter, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (wedding1.Bride.Name.Contains(Filter, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (wedding1.Groom.PhoneNumber.Contains(Filter, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (wedding1.Groom.Name.Contains(Filter, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (wedding1.DateOfSigningTheContract.Contains(Filter, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (wedding1.Cameraman.Facebook.Contains(Filter, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (wedding1.Photographer.Facebook.Contains(Filter, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (wedding1.Restaurant.Facebook.Contains(Filter, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    }
+}
