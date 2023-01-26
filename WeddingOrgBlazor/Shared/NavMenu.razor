@@ -1,6 +1,6 @@
 ﻿<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">WeddingOrgBlazor</a>
+        <a class="navbar-brand" href=""><h7><b>Wedding Organizer</b></h7> <h9>beta</h9></a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -10,17 +10,31 @@
 <div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
     <nav class="flex-column">
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="wesela">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Wesela
+            <NavLink class="nav-link" href="weddings">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Baza wesel
             </NavLink>
         </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="addweddings">
-                <span class="oi oi-plus" aria-hidden="true"></span> Dodaj
+                <span class="oi oi-plus" aria-hidden="true"></span> Dodaj wesele
             </NavLink>
         </div>      
-        
-          
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="addphotographer">
+                <span class="oi oi-plus" aria-hidden="true"></span> Fotografowie
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="addcameraman">
+                <span class="oi oi-plus" aria-hidden="true"></span> Kamerzyści 
+            </NavLink>
+        </div>    
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="addrestaurant">
+                <span class="oi oi-plus" aria-hidden="true"></span> Restauracje
+            </NavLink>
+        </div>    
+
     </nav>
 </div>
 
