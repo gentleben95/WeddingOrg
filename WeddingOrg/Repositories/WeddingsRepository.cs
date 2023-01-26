@@ -8,7 +8,7 @@ using WeddingOrg.DTOs;
 using WeddingOrg.Exceptions;
 using WeddingOrg.Models;
 using WeddingOrg.Views;
-
+ 
 namespace WeddingOrg.Repositories
 {
     public class WeddingsRepository : IWeddingsRepository
