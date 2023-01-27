@@ -1,49 +1,55 @@
 ﻿@page "/addweddings"
 @inject WeddingOrg.Controllers.WeddingsController WeddingsController
+@inject NavigationManager Navigation
 @using WeddingOrg.DTOs
+
 <PageTitle>Dodaj wesele</PageTitle>
 <RadzenTemplateForm TItem="FilledInfo" Data=@addWedding Submit=@OnSubmit>
     <RadzenCard Class="my-5 mx-auto" Style="max-width: 400px;">
-        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Data podpisania umowy*</RadzenText>
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H5">Data podpisania umowy*</RadzenText>
         <RadzenMask CharacterPattern="[6-10]" Placeholder="dd.mm.rrrr" Name="DateOfSigning" @bind-Value=@addWedding.DateOfSigning 
-                    Change=@(args => OnChange(args, "Data podpisania umowy")) Style="width: 100%;" />
-        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Class="mt-4">Data wesela*</RadzenText>
+                     Style="width: 100%;" />
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H5" Class="mt-4">Data wesela*</RadzenText>
         <RadzenMask CharacterPattern="[6-10]" Placeholder="dd.mm.rrrr" Name="DateOfWedding" @bind-Value=@addWedding.DateOfWedding 
-                    Change=@(args => OnChange(args, "Data wesela")) Style="width: 100%;" />
-        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Class="mt-4">Pann młoda - imię*</RadzenText>
-        <RadzenMask CharacterPattern="[3-15]" Placeholder="np. Agnieszka" Name="BrideName" @bind-Value=@addWedding.BrideName 
-                    Change=@(args => OnChange(args, "Panna młoda - imię")) Style="width: 100%;" />
-        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Class="mt-4">Pann młoda - numer telefonu*</RadzenText>
+                     Style="width: 100%;" />
+
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H5" Class="mt-4">Panna młoda - imię*</RadzenText>
+        <RadzenMask CharacterPattern="[3-15]" Placeholder="np. Agnieszka" Name="BrideName" @bind-Value=@addWedding.BrideName
+                    Style="width: 100%;" />
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H5" Class="mt-4">Panna młoda - numer telefonu*</RadzenText>
         <RadzenMask CharacterPattern="[9-16]" Placeholder="np. 555 666 888" Name="BridePhoneNumber" @bind-Value=@addWedding.BridePhoneNumber
                     Change=@(args => OnChange(args, "Panna młoda - nr tel.")) Style="width: 100%;" />
-        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Class="mt-4">Pann młoda - email</RadzenText>
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H5" Class="mt-4">Panna młoda - email</RadzenText>
         <RadzenMask CharacterPattern="[0-35]" Placeholder="np. agnieszka@gmail.com" Name="BrideEmail" @bind-Value=@addWedding.BrideEmail
                     Change=@(args => OnChange(args, "Panna młoda - email")) Style="width: 100%;" />
-        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Class="mt-4">Pann młoda - instagram</RadzenText>
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H5" Class="mt-4">Panna młoda - instagram</RadzenText>
         <RadzenMask CharacterPattern="[0-35]" Placeholder="np. agnieszka.instagram.com" Name="BrideInstagram" @bind-Value=@addWedding.BrideInstagram
                     Change=@(args => OnChange(args, "Panna młoda - instagram")) Style="width: 100%;" />
 
-        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Class="mt-4">Pan młody - imię*</RadzenText>
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H5" Class="mt-4">Pan młody - imię*</RadzenText>
         <RadzenMask CharacterPattern="[3-15]" Placeholder="np. Tomasz" Name="GroomName" @bind-Value=@addWedding.GroomName 
                     Change=@(args => OnChange(args, "Pan młody - imię")) Style="width: 100%;" />
-        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Class="mt-4">Pan młody - numer telefonu*</RadzenText>
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H5" Class="mt-4">Pan młody - numer telefonu*</RadzenText>
         <RadzenMask CharacterPattern="[9-16]" Placeholder="np. 555 666 888" Name="GroomPhoneNumber" @bind-Value=@addWedding.GroomPhoneNumber
                     Change=@(args => OnChange(args, "Pan młody - nr tel.")) Style="width: 100%;" />
-        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Class="mt-4">Pan młody - email</RadzenText>
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H5" Class="mt-4">Pan młody - email</RadzenText>
         <RadzenMask CharacterPattern="[0-35]" Placeholder="np. tomasz@gmail.com" Name="GroomEmail" @bind-Value=@addWedding.GroomEmail
                     Change=@(args => OnChange(args, "Pan młody - email")) Style="width: 100%;" />
-        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Class="mt-4">Pan młody - instagram</RadzenText>
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H5" Class="mt-4">Pan młody - instagram</RadzenText>
         <RadzenMask CharacterPattern="[0-35]" Placeholder="np. tomasz.instagram.com" Name="GroomInstagram" @bind-Value=@addWedding.GroomInstagram
                     Change=@(args => OnChange(args, "Pan młody - instagram")) Style="width: 100%;" />
-            <div class="row">
+            <div class="container-fluid button-demo">
+                    <div class="row">
             <div class="col-md-12 d-flex align-items-end justify-content-left mt-4">
-                <RadzenButton ButtonType="ButtonType.Submit"  Text="Dodaj" />
-                <RadzenButton ButtonStyle="ButtonStyle.Light" style="margin-left: 10px;" Text="anuluj" />
+                    <RadzenButton ButtonType="ButtonType.Submit" Shade="Shade.Lighter" Text="Dodaj" ButtonStyle="ButtonStyle.Light"
+                                  OnClick="@(()=> Navigation.NavigateTo(Navigation.Uri))" />
+                    
             </div>
+                <p style="margin-top: 10px">Po dodaniu odśwież stronę</p>
+        </div>
         </div>
     </RadzenCard>
 </RadzenTemplateForm>
-<EventConsole @ref=@console Class="mt-4" />
 <div class="form-group">
     <input class="form-control" type="text" placeholder="Filtruj..."
            @bind="Filter"
@@ -158,5 +164,6 @@
         if (wedding1.Restaurant.Facebook.Contains(Filter, StringComparison.OrdinalIgnoreCase))
             return true;
         return false;
+
     }
 }
