@@ -1,6 +1,7 @@
 ﻿@page "/addweddings"
 @inject WeddingOrg.Controllers.WeddingsController WeddingsController
 @inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
 @using WeddingOrg.DTOs
 
 <PageTitle>Dodaj wesele</PageTitle>
@@ -43,7 +44,8 @@
             <div class="col-md-12 d-flex align-items-end justify-content-left mt-4">
                     <RadzenButton ButtonType="ButtonType.Submit" Shade="Shade.Lighter" Text="Dodaj" ButtonStyle="ButtonStyle.Light"
                                   OnClick="@(()=> Navigation.NavigateTo(Navigation.Uri))" />
-                    
+                    <RadzenButton ButtonType="ButtonType.Submit" Shade="Shade.Lighter" Text="Odśwież" ButtonStyle="ButtonStyle.Light" 
+                    OnClick="@(()=> JSRuntime.InvokeVoidAsync("location.reload"))" />
             </div>
                 <p style="margin-top: 10px">Po dodaniu odśwież stronę</p>
         </div>
