@@ -256,26 +256,26 @@ namespace WeddingOrg.Repositories
             await _dbContext.SaveChangesAsync();
             return restaurantDeletion.Id;
         }
-        public async Task<Wedding> AddPhotographerToWedding(int weddingId, int photographerId, CancellationToken cancellationToken)
+        public async Task<Wedding> AddPhotographerToWedding(int weddingId, int photographerId)
         {
-            var photographer = await _dbContext.Photographers.SingleOrDefaultAsync(p => p.Id == photographerId, cancellationToken);
-            var wedding = await _dbContext.Weddings.SingleOrDefaultAsync(p => p.Id == weddingId, cancellationToken);
+            var photographer = await _dbContext.Photographers.SingleOrDefaultAsync(p => p.Id == photographerId);
+            var wedding = await _dbContext.Weddings.SingleOrDefaultAsync(p => p.Id == weddingId);
             wedding.Photographer = photographer;
             await _dbContext.SaveChangesAsync();
             return wedding;
         }
-        public async Task<Wedding> AddCameramanToWedding(int weddingId, int cameramanId, CancellationToken cancellationToken)
+        public async Task<Wedding> AddCameramanToWedding(int weddingId, int cameramanId)
         {
-            var cameraman = await _dbContext.Cameramen.SingleOrDefaultAsync(p => p.Id == cameramanId, cancellationToken);
-            var wedding = await _dbContext.Weddings.SingleOrDefaultAsync(p => p.Id == weddingId, cancellationToken);
+            var cameraman = await _dbContext.Cameramen.SingleOrDefaultAsync(p => p.Id == cameramanId);
+            var wedding = await _dbContext.Weddings.SingleOrDefaultAsync(p => p.Id == weddingId,);
             wedding.Cameraman = cameraman;
             await _dbContext.SaveChangesAsync();
             return wedding;
         }
-        public async Task<Wedding> AddRestaurantToWedding(int weddingId, int restaurantId, CancellationToken cancellationToken)
+        public async Task<Wedding> AddRestaurantToWedding(int weddingId, int restaurantId)
         {
-            var restaurant = await _dbContext.Restaurants.SingleOrDefaultAsync(p => p.Id == restaurantId, cancellationToken);
-            var wedding = await _dbContext.Weddings.SingleOrDefaultAsync(p => p.Id == weddingId, cancellationToken);
+            var restaurant = await _dbContext.Restaurants.SingleOrDefaultAsync(p => p.Id == restaurantId);
+            var wedding = await _dbContext.Weddings.SingleOrDefaultAsync(p => p.Id == weddingId);
             wedding.Restaurant = restaurant;
             await _dbContext.SaveChangesAsync();
             return wedding;
