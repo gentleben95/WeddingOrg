@@ -45,8 +45,8 @@ namespace WeddingOrg.Repositories
         Task<int> DeleteRestaurantById(int id, CancellationToken cancellationToken);
 
         // Add
-        Task<Wedding> AddPhotographerToWedding(int weddingId, int photographerId, CancellationToken cancellationToken);
-        Task<Wedding> AddCameramanToWedding(int weddingId, int cameramanId, CancellationToken cancellationToken);
-        Task<Wedding> AddRestaurantToWedding(int weddingId, int restaurantId, CancellationToken cancellationToken);
+        Task<Wedding> AddPhotographerToWedding(int weddingId, int photographerId);
+        Task<Wedding> AddCameramanToWedding(int weddingId, int cameramanId);
+        Task<Wedding> AddRestaurantToWedding(int weddingId, int restaurantId);
     }
 }

@@ -267,7 +267,7 @@ namespace WeddingOrg.Repositories
         public async Task<Wedding> AddCameramanToWedding(int weddingId, int cameramanId)
         {
             var cameraman = await _dbContext.Cameramen.SingleOrDefaultAsync(p => p.Id == cameramanId);
-            var wedding = await _dbContext.Weddings.SingleOrDefaultAsync(p => p.Id == weddingId,);
+            var wedding = await _dbContext.Weddings.SingleOrDefaultAsync(p => p.Id == weddingId);
             wedding.Cameraman = cameraman;
             await _dbContext.SaveChangesAsync();
             return wedding;

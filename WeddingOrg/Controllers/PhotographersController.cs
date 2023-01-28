@@ -56,9 +56,9 @@ namespace WeddingOrg.Controllers
             return Ok();
         }
         [HttpPut("{weddingId}/concatenatephoto")]
-        public async Task<IActionResult> AddPhotographerToWedding(int weddingId, [FromBody] int photographerId, CancellationToken cancellationToken)
+        public async Task<IActionResult> AddPhotographerToWedding(int weddingId, [FromBody] int photographerId)
         {
-            var photographer = await _weddingsRepository.AddPhotographerToWedding(weddingId, photographerId, cancellationToken);
+            var photographer = await _weddingsRepository.AddPhotographerToWedding(weddingId, photographerId);
             if (photographer == default) { return NotFound($"Nie ma fotografa z ID o numerze [{photographerId}]"); }
             if (weddingId == default) { return NotFound($"Nie ma wesela z ID o numerze [{weddingId}]"); }
             return Ok();
