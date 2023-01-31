@@ -25,7 +25,7 @@ namespace WeddingOrg.Controllers
         }
         // GET: api/<WeddingsController>
         [HttpGet]
-        public async Task<IEnumerable<Wedding>> GetWeddings(CancellationToken cancellationToken)
+        public async Task<IEnumerable<Wedding>> GetWeddings(CancellationToken cancellationToken = default)
         {
             var wedding = await _weddingsRepository.GetWeddings(cancellationToken);
             return wedding;
@@ -40,10 +40,11 @@ namespace WeddingOrg.Controllers
             return Ok(wedding);
         }              
         [HttpPost]
-        public async Task<IActionResult> CreateWedding ([FromBody]UpdateWeddingBrideGroomDto dto, CancellationToken cancellationToken)
+        public async Task<int> CreateWedding ([FromBody]UpdateWeddingBrideGroomDto dto)
         {
-            await _weddingsRepository.CreateWeedingBrideGroom(dto, cancellationToken);
-            return NoContent();
+            var id = await _weddingsRepository.CreateWeedingBrideGroom(dto);
+            return id;
+
         }
         [HttpPut("{id}")]
         public void ChangeWedding(int id, [FromBody] UpdateWeddingDto dto, CancellationToken cancellationToken)
@@ -57,6 +58,10 @@ namespace WeddingOrg.Controllers
             if (wedding == default) { return BadRequest($"Nie ma wesela z ID o numerze [{id}]"); }
             return Ok();
         }
-        
+        //public async Task<IActionResult> CreateFullWeddingController([FromBody] UpdateFullWeddingDto dto)
+        //{
+        //    await _weddingsRepository.CreateFullWeedingRepository(dto);
+        //    return NoContent();
+        //}
     }
 }

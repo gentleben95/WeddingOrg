@@ -31,11 +31,9 @@ namespace WeddingOrg.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Instagram")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -81,11 +79,9 @@ namespace WeddingOrg.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Instagram")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -198,7 +194,7 @@ namespace WeddingOrg.Migrations
                         .IsRequired();
 
                     b.HasOne("WeddingOrg.Models.Cameraman", "Cameraman")
-                        .WithMany()
+                        .WithMany("Weddings")
                         .HasForeignKey("CameramanId");
 
                     b.HasOne("WeddingOrg.Models.Groom", "Groom")
@@ -224,6 +220,11 @@ namespace WeddingOrg.Migrations
                     b.Navigation("Photographer");
 
                     b.Navigation("Restaurant");
+                });
+
+            modelBuilder.Entity("WeddingOrg.Models.Cameraman", b =>
+                {
+                    b.Navigation("Weddings");
                 });
 #pragma warning restore 612, 618
         }

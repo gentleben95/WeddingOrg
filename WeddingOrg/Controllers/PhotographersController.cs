@@ -23,7 +23,7 @@ namespace WeddingOrg.Controllers
         }
         // GET: api/<WeddingsController>
         [HttpGet]
-        public async Task<IEnumerable<Photographer>> GetPhotographers(CancellationToken cancellationToken)
+        public async Task<IEnumerable<Photographer>> GetPhotographers(CancellationToken cancellationToken = default)
         {
             var photographer = await _weddingsRepository.GetPhotographers(cancellationToken);
             return photographer;
@@ -38,9 +38,9 @@ namespace WeddingOrg.Controllers
             return Ok(photographer + $"Znaleziono fotografa z ID o numerze [{id}]");
         }
         [HttpPost]
-        public async Task<IActionResult> CreatePhotographer([FromBody] UpdatePhotographerDto dto, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreatePhotographer([FromBody] UpdatePhotographerDto dto)
         {
-            await _weddingsRepository.CreatePhotographer(dto, cancellationToken);
+            await _weddingsRepository.CreatePhotographer(dto);
             return NoContent();
         }
         [HttpPut("{id}")]
@@ -56,9 +56,9 @@ namespace WeddingOrg.Controllers
             return Ok();
         }
         [HttpPut("{weddingId}/concatenatephoto")]
-        public async Task<IActionResult> AddPhotographerToWedding(int weddingId, [FromBody] int photographerId, CancellationToken cancellationToken)
+        public async Task<IActionResult> AddPhotographerToWedding(int weddingId, [FromBody] int photographerId)
         {
-            var photographer = await _weddingsRepository.AddPhotographerToWedding(weddingId, photographerId, cancellationToken);
+            var photographer = await _weddingsRepository.AddPhotographerToWedding(weddingId, photographerId);
             if (photographer == default) { return NotFound($"Nie ma fotografa z ID o numerze [{photographerId}]"); }
             if (weddingId == default) { return NotFound($"Nie ma wesela z ID o numerze [{weddingId}]"); }
             return Ok();

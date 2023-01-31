@@ -24,7 +24,7 @@ namespace WeddingOrg.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Restaurant>> GetRestaurants(CancellationToken cancellationToken)
+        public async Task<IEnumerable<Restaurant>> GetRestaurants(CancellationToken cancellationToken = default)
         {
             var restaurant = await _weddingsRepository.GetRestaurants(cancellationToken);
             return restaurant;
@@ -38,9 +38,9 @@ namespace WeddingOrg.Controllers
             return Ok(wedding + $"Znaleziono restaurację z ID o numerze [{id}]");
         }              
         [HttpPost]
-        public async Task<IActionResult> CreateRestaurant ([FromBody]UpdateRestaurantDto dto, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateRestaurant ([FromBody]UpdateRestaurantDto dto)
         {
-            await _weddingsRepository.CreateRestaurant(dto, cancellationToken);
+            await _weddingsRepository.CreateRestaurant(dto);
             return NoContent();
         }
         [HttpPut("{id}")]
@@ -56,9 +56,9 @@ namespace WeddingOrg.Controllers
             return Ok();
         }
         [HttpPut("{weddingId}/concatenaterestaurant")]
-        public async Task<IActionResult> AddRestaurantToWedding(int weddingId, [FromBody] int restaurantId, CancellationToken cancellationToken)
+        public async Task<IActionResult> AddRestaurantToWedding(int weddingId, [FromBody] int restaurantId)
         {
-            var restaurant = await _weddingsRepository.AddPhotographerToWedding(weddingId, restaurantId, cancellationToken);
+            var restaurant = await _weddingsRepository.AddRestaurantToWedding(weddingId, restaurantId);
             if (restaurant == default) { return NotFound($"Nie ma restauracji z ID o numerze [{restaurantId}]"); }
             if (weddingId == default) { return NotFound($"Nie ma wesela z ID o numerze [{weddingId}]"); }
             return Ok();

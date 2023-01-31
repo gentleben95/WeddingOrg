@@ -13,7 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IWeddingsRepository, WeddingsRepository>();
-builder.Services.AddDbContext<ApplicationDbContext>(options 
+builder.Services.AddDbContext<ApplicationDbContext>(options
     => options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")));
 

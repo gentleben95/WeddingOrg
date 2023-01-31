@@ -23,10 +23,11 @@ namespace WeddingOrg.Repositories
         Task<Restaurant> GetRestaurantById(int id, CancellationToken cancellationToken);
 
         //Create 
-        Task<int> CreateWeedingBrideGroom(UpdateWeddingBrideGroomDto dto, CancellationToken cancellationToken);
-        Task<int> CreatePhotographer(UpdatePhotographerDto dto, CancellationToken cancellationToken);
-        Task<int> CreateCameraman(UpdateCameramanDto dto, CancellationToken cancellationToken);
-        Task<int> CreateRestaurant(UpdateRestaurantDto dto, CancellationToken cancellationToken);
+        Task<int> CreateWeedingBrideGroom(UpdateWeddingBrideGroomDto dto);
+        Task<int> CreateFullWeedingRepository(UpdateFullWeddingDto dto);
+        Task<int> CreatePhotographer(UpdatePhotographerDto dto);
+        Task<int> CreateCameraman(UpdateCameramanDto dto);
+        Task<int> CreateRestaurant(UpdateRestaurantDto dto);
 
         //Change
         Task<int> ChangeWedding(int weddingId, UpdateWeddingDto dto, CancellationToken cancellationToken);
@@ -45,8 +46,8 @@ namespace WeddingOrg.Repositories
         Task<int> DeleteRestaurantById(int id, CancellationToken cancellationToken);
 
         // Add
-        Task<Wedding> AddPhotographerToWedding(int weddingId, int photographerId, CancellationToken cancellationToken);
-        Task<Wedding> AddCameramanToWedding(int weddingId, int cameramanId, CancellationToken cancellationToken);
-        Task<Wedding> AddRestaurantToWedding(int weddingId, int restaurantId, CancellationToken cancellationToken);
+        Task<Wedding> AddPhotographerToWedding(int weddingId, int photographerId);
+        Task<Wedding> AddCameramanToWedding(int weddingId, int cameramanId);
+        Task<Wedding> AddRestaurantToWedding(int weddingId, int restaurantId);
     }
 }

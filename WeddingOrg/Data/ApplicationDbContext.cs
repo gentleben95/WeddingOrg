@@ -15,5 +15,6 @@ namespace WeddingOrg.Data
         public DbSet<Photographer> Photographers { get; set; }
         public DbSet<Cameraman> Cameramen { get; set; }
         public DbSet<Restaurant> Restaurants { get; set; }
+
     }
 }
