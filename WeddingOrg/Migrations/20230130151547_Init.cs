@@ -5,7 +5,7 @@
 namespace WeddingOrg.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,8 +18,8 @@ namespace WeddingOrg.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Instagram = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Instagram = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -48,8 +48,8 @@ namespace WeddingOrg.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Instagram = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Instagram = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -90,13 +90,13 @@ namespace WeddingOrg.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DateOfSigningTheContract = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateOfTheWedding = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateOfSigningTheContract = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BrideId = table.Column<int>(type: "int", nullable: false),
                     GroomId = table.Column<int>(type: "int", nullable: false),
-                    CameramanId = table.Column<int>(type: "int", nullable: true),
-                    PhotographerId = table.Column<int>(type: "int", nullable: true),
-                    RestaurantId = table.Column<int>(type: "int", nullable: true)
+                    PhotographerId = table.Column<int>(type: "int", nullable: false),
+                    CameramanId = table.Column<int>(type: "int", nullable: false),
+                    RestaurantId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -111,7 +111,8 @@ namespace WeddingOrg.Migrations
                         name: "FK_Weddings_Cameramen_CameramanId",
                         column: x => x.CameramanId,
                         principalTable: "Cameramen",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Weddings_Grooms_GroomId",
                         column: x => x.GroomId,
@@ -122,12 +123,14 @@ namespace WeddingOrg.Migrations
                         name: "FK_Weddings_Photographers_PhotographerId",
                         column: x => x.PhotographerId,
                         principalTable: "Photographers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Weddings_Restaurants_RestaurantId",
                         column: x => x.RestaurantId,
                         principalTable: "Restaurants",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

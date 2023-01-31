@@ -147,7 +147,7 @@ namespace WeddingOrg.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("BrideId")
+                    b.Property<int>("BrideId")
                         .HasColumnType("int");
 
                     b.Property<int?>("CameramanId")
@@ -161,7 +161,7 @@ namespace WeddingOrg.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("GroomId")
+                    b.Property<int>("GroomId")
                         .HasColumnType("int");
 
                     b.Property<int?>("PhotographerId")
@@ -189,15 +189,19 @@ namespace WeddingOrg.Migrations
                 {
                     b.HasOne("WeddingOrg.Models.Bride", "Bride")
                         .WithMany()
-                        .HasForeignKey("BrideId");
+                        .HasForeignKey("BrideId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WeddingOrg.Models.Cameraman", "Cameraman")
-                        .WithMany()
+                        .WithMany("Weddings")
                         .HasForeignKey("CameramanId");
 
                     b.HasOne("WeddingOrg.Models.Groom", "Groom")
                         .WithMany()
-                        .HasForeignKey("GroomId");
+                        .HasForeignKey("GroomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WeddingOrg.Models.Photographer", "Photographer")
                         .WithMany()
@@ -216,6 +220,11 @@ namespace WeddingOrg.Migrations
                     b.Navigation("Photographer");
 
                     b.Navigation("Restaurant");
+                });
+
+            modelBuilder.Entity("WeddingOrg.Models.Cameraman", b =>
+                {
+                    b.Navigation("Weddings");
                 });
 #pragma warning restore 612, 618
         }

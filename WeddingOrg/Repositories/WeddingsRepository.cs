@@ -127,7 +127,34 @@ namespace WeddingOrg.Repositories
             await _dbContext.Weddings.AddAsync(wedding);
             await _dbContext.SaveChangesAsync();
             return wedding.Id;          
-        }        
+        }
+        public async Task<int> CreateFullWeedingRepository(UpdateFullWeddingDto dto)
+        {
+            Bride bride = new Bride()
+            {
+                Name = dto.brideName,
+                PhoneNumber = dto.bridePhoneNumber,
+                Email = dto.brideEmail,
+                Instagram = dto.brideInstagram
+            };
+            Groom groom = new Groom()
+            {
+                Name = dto.groomName,
+                PhoneNumber = dto.groomPhoneNumber,
+                Email = dto.groomEmail,
+                Instagram = dto.groomInstagram
+            };
+            Wedding wedding = new Wedding()
+            {
+                DateOfSigningTheContract = dto.dateOfSigningTheContract,
+                DateOfTheWedding = dto.dateOfTheWedding,
+                Bride = bride,
+                Groom = groom,
+            };
+            await _dbContext.Weddings.AddAsync(wedding);
+            await _dbContext.SaveChangesAsync();
+            return wedding.Id;
+        }
         public async Task<int> CreatePhotographer(UpdatePhotographerDto dto)
         {
             Photographer photographer = new()

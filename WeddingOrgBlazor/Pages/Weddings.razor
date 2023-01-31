@@ -51,14 +51,25 @@ else
                     <td>
                         @wedding.Groom.Name, @wedding.Groom.PhoneNumber
                     </td>
-                    <td>                            
-                        @wedding.Photographer.Facebook
+                    <td>
+                        @if (wedding.Photographer != null)
+                        {
+                            @wedding.Photographer.Facebook
+                            ;
+                        }
                     </td>
                     <td>
-                        @wedding.Cameraman.Facebook
+                        @if (wedding.Cameraman != null)
+                        {
+                            @wedding.Cameraman.Facebook
+                            ;
+                        }
                     </td>
                     <td>
-                        @wedding.Restaurant.Facebook
+                        @if (wedding.Restaurant != null)
+                        {
+                            @wedding.Restaurant.Facebook;
+                        }
                     </td>
                 </tr>
             }
@@ -73,6 +84,7 @@ else
 
     }
     private List<WeddingOrg.Models.Wedding> Weddings1 = new();
+
     public string Filter { get; set; }
     public bool IsVisible(
         WeddingOrg.Models.Wedding wedding1)

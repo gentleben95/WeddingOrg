@@ -24,6 +24,7 @@ namespace WeddingOrg.Repositories
 
         //Create 
         Task<int> CreateWeedingBrideGroom(UpdateWeddingBrideGroomDto dto);
+        Task<int> CreateFullWeedingRepository(UpdateFullWeddingDto dto);
         Task<int> CreatePhotographer(UpdatePhotographerDto dto);
         Task<int> CreateCameraman(UpdateCameramanDto dto);
         Task<int> CreateRestaurant(UpdateRestaurantDto dto);

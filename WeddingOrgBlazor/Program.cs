@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
+using Radzen;
 using WeddingOrg.Controllers;
 using WeddingOrg.Data;
 using WeddingOrg.Repositories;
@@ -27,6 +28,7 @@ namespace WeddingOrgBlazor
                     builder.Configuration.GetConnectionString("DefaultConnection")));
             var app = builder.Build();
 
+            
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
@@ -34,7 +36,6 @@ namespace WeddingOrgBlazor
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();

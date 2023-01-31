@@ -12,8 +12,8 @@ using WeddingOrg.Data;
 namespace WeddingOrg.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221213113107_init")]
-    partial class init
+    [Migration("20230131100657_NewModels")]
+    partial class NewModels
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,11 +34,9 @@ namespace WeddingOrg.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Instagram")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -84,11 +82,9 @@ namespace WeddingOrg.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Instagram")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -200,7 +196,7 @@ namespace WeddingOrg.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WeddingOrg.Models.Cameraman", null)
+                    b.HasOne("WeddingOrg.Models.Cameraman", "Cameraman")
                         .WithMany("Weddings")
                         .HasForeignKey("CameramanId");
 
@@ -210,30 +206,26 @@ namespace WeddingOrg.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WeddingOrg.Models.Photographer", null)
-                        .WithMany("Weddings")
+                    b.HasOne("WeddingOrg.Models.Photographer", "Photographer")
+                        .WithMany()
                         .HasForeignKey("PhotographerId");
 
-                    b.HasOne("WeddingOrg.Models.Restaurant", null)
-                        .WithMany("Weddings")
+                    b.HasOne("WeddingOrg.Models.Restaurant", "Restaurant")
+                        .WithMany()
                         .HasForeignKey("RestaurantId");
 
                     b.Navigation("Bride");
 
+                    b.Navigation("Cameraman");
+
                     b.Navigation("Groom");
+
+                    b.Navigation("Photographer");
+
+                    b.Navigation("Restaurant");
                 });
 
             modelBuilder.Entity("WeddingOrg.Models.Cameraman", b =>
-                {
-                    b.Navigation("Weddings");
-                });
-
-            modelBuilder.Entity("WeddingOrg.Models.Photographer", b =>
-                {
-                    b.Navigation("Weddings");
-                });
-
-            modelBuilder.Entity("WeddingOrg.Models.Restaurant", b =>
                 {
                     b.Navigation("Weddings");
                 });

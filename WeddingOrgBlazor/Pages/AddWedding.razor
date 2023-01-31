@@ -1,5 +1,9 @@
-﻿@page "/addweddings"
+﻿@page "/addwedding"
 @inject WeddingOrg.Controllers.WeddingsController WeddingsController
+@inject WeddingOrg.Controllers.PhotographersController PhotographerController
+@inject WeddingOrg.Controllers.RestaurantsController RestaurantsController
+@inject WeddingOrg.Controllers.CameramenController CameramenController
+@inject WeddingOrg.Repositories.IWeddingsRepository IWEddingsRepository
 @inject NavigationManager Navigation
 @inject IJSRuntime JSRuntime
 @using WeddingOrg.DTOs
@@ -8,46 +12,49 @@
 <RadzenTemplateForm TItem="FilledInfo" Data=@addWedding Submit=@OnSubmit>
     <RadzenCard Class="my-5 mx-auto" Style="max-width: 400px;">
         <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H5">Data podpisania umowy*</RadzenText>
-        <RadzenMask CharacterPattern="[6-10]" Placeholder="dd.mm.rrrr" Name="DateOfSigning" @bind-Value=@addWedding.DateOfSigning 
-                     Style="width: 100%;" />
+        <RadzenTextBox Placeholder="dd.mm.rrrr" Name="DateOfSigning" @bind-Value=@addWedding.DateOfSigning Style="width: 100%;" />
         <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H5" Class="mt-4">Data wesela*</RadzenText>
-        <RadzenMask CharacterPattern="[6-10]" Placeholder="dd.mm.rrrr" Name="DateOfWedding" @bind-Value=@addWedding.DateOfWedding 
-                     Style="width: 100%;" />
-
+        <RadzenTextBox Placeholder="dd.mm.rrrr" Name="DateOfWedding" @bind-Value=@addWedding.DateOfWedding Style="width: 100%;" />
         <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H5" Class="mt-4">Panna młoda - imię*</RadzenText>
-        <RadzenMask CharacterPattern="[3-15]" Placeholder="np. Agnieszka" Name="BrideName" @bind-Value=@addWedding.BrideName 
-                    Change=@(args => OnChange(args, "Panna młoda - imię")) Style="width: 100%;" />
+        <RadzenTextBox  Placeholder="np. Agnieszka" Name="BrideName" @bind-Value=@addWedding.BrideName Style="width: 100%;" />
         <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H5" Class="mt-4">Panna młoda - numer telefonu*</RadzenText>
-        <RadzenMask CharacterPattern="[9-16]" Placeholder="np. 555 666 888" Name="BridePhoneNumber" @bind-Value=@addWedding.BridePhoneNumber
-                    Change=@(args => OnChange(args, "Panna młoda - nr tel.")) Style="width: 100%;" />
+        <RadzenTextBox  Placeholder="np. 555 666 888" Name="BridePhoneNumber" @bind-Value=@addWedding.BridePhoneNumber Style="width: 100%;" />
         <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H5" Class="mt-4">Panna młoda - email</RadzenText>
-        <RadzenMask CharacterPattern="[0-35]" Placeholder="np. tomasz@gmail.com" Name="BrideEmail" @bind-Value=@addWedding.BrideEmail
-                    Change=@(args => OnChange(args, "Panna młoda - email")) Style="width: 100%;" />
+        <RadzenTextBox Placeholder="np. agnieszka@gmail.com" Name="BrideEmail" @bind-Value=@addWedding.BrideEmail Style="width: 100%;" />
         <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H5" Class="mt-4">Panna młoda - instagram</RadzenText>
-        <RadzenMask CharacterPattern="[0-35]" Placeholder="np. tomasz.instagram.com" Name="BrideInstagram" @bind-Value=@addWedding.BrideInstagram
-                    Change=@(args => OnChange(args, "Panna młoda - instagram")) Style="width: 100%;" />
+        <RadzenTextBox Placeholder="np. agnieszka.instagram.com" Name="BrideInstagram" @bind-Value=@addWedding.BrideInstagram Style="width: 100%;" />        
 
         <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H5" Class="mt-4">Pan młody - imię*</RadzenText>
-        <RadzenMask CharacterPattern="[3-15]" Placeholder="np. Tomasz" Name="GroomName" @bind-Value=@addWedding.GroomName 
-                    Change=@(args => OnChange(args, "Pan młody - imię")) Style="width: 100%;" />
+        <RadzenTextBox Placeholder="np. Tomasz" Name="GroomName" @bind-Value=@addWedding.GroomName
+                       Style="width: 100%;" />
         <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H5" Class="mt-4">Pan młody - numer telefonu*</RadzenText>
-        <RadzenMask CharacterPattern="[9-16]" Placeholder="np. 555 666 888" Name="GroomPhoneNumber" @bind-Value=@addWedding.GroomPhoneNumber
-                    Change=@(args => OnChange(args, "Pan młody - nr tel.")) Style="width: 100%;" />
+        <RadzenTextBox Placeholder="np. 555 666 888" Name="GroomPhoneNumber" @bind-Value=@addWedding.GroomPhoneNumber
+                     Style="width: 100%;" />
         <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H5" Class="mt-4">Pan młody - email</RadzenText>
-        <RadzenMask CharacterPattern="[0-35]" Placeholder="np. tomasz@gmail.com" Name="GroomEmail" @bind-Value=@addWedding.GroomEmail
-                    Change=@(args => OnChange(args, "Pan młody - email")) Style="width: 100%;" />
+        <RadzenTextBox Placeholder="np. tomasz@gmail.com" Name="GroomEmail" @bind-Value=@addWedding.GroomEmail
+                    Style="width: 100%;" />
         <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H5" Class="mt-4">Pan młody - instagram</RadzenText>
-        <RadzenMask CharacterPattern="[0-35]" Placeholder="np. tomasz.instagram.com" Name="GroomInstagram" @bind-Value=@addWedding.GroomInstagram
-                    Change=@(args => OnChange(args, "Pan młody - instagram")) Style="width: 100%;" />
+        <RadzenTextBox Placeholder="np. tomasz.instagram.com" Name="GroomInstagram" @bind-Value=@addWedding.GroomInstagram
+                    Style="width: 100%;" />                      
+
+        <RadzenText Data TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Wybierz fotografa</RadzenText>
+        <RadzenDropDown AllowClear="true" TValue="int" Class="w-100"
+                        Data=@Photographers TextProperty="Facebook" ValueProperty="Id"
+                        @bind-Value="@addWedding.SelectedPhotographerId" />
+        <RadzenText Data TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Wybierz kamerzystę</RadzenText>
+        <RadzenDropDown AllowClear="true" TValue="int" Class="w-100"
+                        Data=@Cameramen TextProperty="Facebook" ValueProperty="Id"
+                        @bind-Value="@addWedding.SelectedCameramanId" />
+        <RadzenText Data TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Wybierz restaurację</RadzenText>
+        <RadzenDropDown AllowClear="true" TValue="int" Class="w-100"
+                        Data=@Restaurants TextProperty="Facebook" ValueProperty="Id"
+                        @bind-Value="@addWedding.SelectedRestaurantId" />
+        
             <div class="container-fluid button-demo">
                     <div class="row">
             <div class="col-md-12 d-flex align-items-end justify-content-left mt-4">
-                    <RadzenButton ButtonType="ButtonType.Submit" Shade="Shade.Lighter" Text="Dodaj" ButtonStyle="ButtonStyle.Light" 
-                    OnClick="@(()=> Navigation.NavigateTo(Navigation.Uri))"></RadzenButton>
-                                   
-
+                    <RadzenButton ButtonType="ButtonType.Submit" Shade="Shade.Lighter" Text="Dodaj" ButtonStyle="ButtonStyle.Primary" />                               
             </div>
-                <p style="margin-top: 10px">Po dodaniu odśwież stronę</p>
         </div>
         </div>
     </RadzenCard>
@@ -77,9 +84,23 @@
                     @wedding.Bride.PhoneNumber</td>
                 <td>@wedding.Groom.Name, 
                     @wedding.Groom.PhoneNumber </td>
-                <td>@wedding.Photographer.Facebook</td>
-                <td>@wedding.Cameraman.Facebook </td>
-                <td>@wedding.Restaurant.Facebook </td>
+                <td>@if (wedding.Photographer != null)
+                    {
+                        @wedding.Photographer.Facebook;
+                    }
+                    </td>
+                <td>
+                        @if (wedding.Cameraman != null)
+                        {
+                            @wedding.Cameraman.Facebook;
+                        }
+                    </td>
+                    <td>
+                        @if (wedding.Restaurant != null)
+                        {
+                            @wedding.Restaurant.Facebook;
+                        }
+                    </td>
             </tr>
         }
     </tbody>
@@ -88,36 +109,50 @@
     protected override async Task OnInitializedAsync()
     {
         Weddings = (await WeddingsController.GetWeddings()).ToList();
+        Photographers = (await PhotographerController.GetPhotographers()).ToList();
+        Cameramen = (await CameramenController.GetCameramen()).ToList();        
+        Restaurants = (await RestaurantsController.GetRestaurants()).ToList();
     }
     private List<WeddingOrg.Models.Wedding> Weddings = new();
+    private List<WeddingOrg.Models.Cameraman> Cameramen = new();
+    private List<WeddingOrg.Models.Photographer> Photographers = new();
+    private List<WeddingOrg.Models.Restaurant> Restaurants = new();
 
     public class FilledInfo
     {
-        public string DateOfSigning { get; set; }
-        public string DateOfWedding { get; set; }
-        public string BrideName { get; set; } = "";
-        public string BridePhoneNumber { get; set; } = "";
-        public string BrideEmail { get; set; } = "";
-        public string BrideInstagram { get; set; } = "";
-        public string GroomName { get; set; } = "";
-        public string GroomPhoneNumber { get; set; } = "";
-        public string GroomEmail { get; set; } = "";
-        public string GroomInstagram { get; set; } = "";
+        public string? DateOfSigning { get; set; }
+        public string? DateOfWedding { get; set; }
+        public string? BrideName { get; set; }
+        public string? BridePhoneNumber { get; set; }
+        public string? BrideEmail { get; set; }
+        public string? BrideInstagram { get; set; }
+        public string? GroomName { get; set; }
+        public string? GroomInstagram { get; set; }
+        public string? GroomEmail { get; set; }
+        public string? GroomPhoneNumber { get; set; }
+        public string? PhotographerFacebook { get; set; } 
+        public string? PhotographerInstagram { get; set; }
+        public string? CameramanFacebook { get; set; }
+        public string? CameramanInstagram { get; set; }
+        public string? RestaurantFacebook { get; set; }
+        public string? RestaurantInstagram { get; set; }
+        public int SelectedPhotographerId { get; set; } 
+        public int SelectedCameramanId { get; set; }
+        public int SelectedRestaurantId { get; set; }
     }
     FilledInfo addWedding = new FilledInfo();
-    void OnSubmit(FilledInfo arg)
+    async void OnSubmit(FilledInfo arg)
     {
         var updateWeddingDto = new UpdateWeddingBrideGroomDto(addWedding.DateOfSigning, addWedding.DateOfWedding, 
             addWedding.BrideName, addWedding.BridePhoneNumber, addWedding.BrideEmail, addWedding.BrideInstagram, 
             addWedding.GroomName, addWedding.GroomPhoneNumber, addWedding.GroomEmail, addWedding.GroomInstagram);
-        WeddingsController.CreateWedding(updateWeddingDto);
-    }
-    EventConsole console;
-
-    void OnChange(string value, string name)
-    {
-        console.Log($"{name} value changed to {value}");
-    }
+        var result = await WeddingsController.CreateWedding(updateWeddingDto);
+        await PhotographerController.AddPhotographerToWedding(result, addWedding.SelectedPhotographerId);
+        await CameramenController.AddCameramanToWedding(result, addWedding.SelectedCameramanId);
+        await RestaurantsController.AddRestaurantToWedding(result, addWedding.SelectedRestaurantId);
+        Weddings = (await WeddingsController.GetWeddings()).ToList();
+        StateHasChanged();        
+    } 
     public string Filter { get; set; }
     public bool IsVisible(
         WeddingOrg.Models.Wedding wedding1)
@@ -143,6 +178,6 @@
         if (wedding1.Restaurant.Facebook.Contains(Filter, StringComparison.OrdinalIgnoreCase))
             return true;
         return false;
-
     }
+    
 }
