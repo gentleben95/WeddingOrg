@@ -6,6 +6,8 @@
 <PageTitle>Dodaj restaurację</PageTitle>
 <RadzenTemplateForm TItem="FilledInfo" Data=@fbInsta Submit=@OnSubmit>
     <RadzenCard Class="my-5 mx-auto" Style="max-width: 400px;">
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Nazwa restauracji</RadzenText>
+        <RadzenTextBox Placeholder="np. MonteNegro Świerklany" Name="Name" @bind-Value=@fbInsta.Name Style="width: 100%;" />
         <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Facebook restauracji</RadzenText>
         <RadzenTextBox Placeholder="facebook.com" Name="Facebook" @bind-Value=@fbInsta.Facebook Style="width: 100%;" />
         <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Class="mt-4">Instagram restauracji</RadzenText>
@@ -68,14 +70,15 @@
 
     public class FilledInfo
     {
-        public string Facebook { get; set; }
+        public string Name { get; set; }
+        public string Facebook { get; set; }        
         public string Instagram { get; set; }
     }
     FilledInfo fbInsta = new FilledInfo();
 
     async void OnSubmit(FilledInfo arg)
     {
-        var updateRestaurantsDto = new UpdateRestaurantDto(fbInsta.Facebook, fbInsta.Instagram);
+        var updateRestaurantsDto = new UpdateRestaurantDto(fbInsta.Name, fbInsta.Facebook, fbInsta.Instagram);
         await RestaurantsController.CreateRestaurant(updateRestaurantsDto);
         Restaurants = (await RestaurantsController.GetRestaurants()).ToList();
         StateHasChanged();

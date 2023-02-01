@@ -161,6 +161,7 @@ namespace WeddingOrg.Repositories
             {
                 Facebook = dto.photographerFacebook,
                 Instagram = dto.photographerInstagram,
+                Name = dto.photographerName
             };
             await _dbContext.AddAsync(photographer);
             await _dbContext.SaveChangesAsync();
@@ -172,6 +173,7 @@ namespace WeddingOrg.Repositories
             {
                 Facebook = dto.cameramanFacebook,
                 Instagram = dto.cameramanInstagram,
+                Name = dto.cameramanName
             };
             await _dbContext.AddAsync(cameraman);
             await _dbContext.SaveChangesAsync();
@@ -183,6 +185,7 @@ namespace WeddingOrg.Repositories
             {
                 Facebook = dto.restaurantFacebook,
                 Instagram = dto.restaurantInstagram,
+                Name = dto.restaurantName
             };
             await _dbContext.AddAsync(restaurant);
             await _dbContext.SaveChangesAsync();

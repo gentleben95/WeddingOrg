@@ -6,6 +6,8 @@
 <PageTitle>Dodaj kamerzystę</PageTitle>
 <RadzenTemplateForm TItem="FilledInfo" Data=@fbInsta Submit=@OnSubmit>
     <RadzenCard Class="my-5 mx-auto" Style="max-width: 400px;">
+        <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Nazwa kamerzysty</RadzenText>
+        <RadzenTextBox Placeholder="np. OndeWedding" Name="Facebook" @bind-Value=@fbInsta.Name Style="width: 100%;" />
         <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Facebook kamerzysty</RadzenText>
         <RadzenTextBox Placeholder="facebook.com" Name="Facebook" @bind-Value=@fbInsta.Facebook Style="width: 100%;" />
         <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Class="mt-4">Instagram kamerzysty</RadzenText>
@@ -70,13 +72,14 @@
 
     public class FilledInfo
     {
+        public string Name { get; set; }
         public string Facebook { get; set; }
         public string Instagram { get; set; }
     }
     FilledInfo fbInsta = new FilledInfo();
     async void OnSubmit(FilledInfo arg)
     {
-        var updateCameramanDto = new UpdateCameramanDto(fbInsta.Facebook, fbInsta.Instagram);
+        var updateCameramanDto = new UpdateCameramanDto(fbInsta.Name,fbInsta.Facebook, fbInsta.Instagram);
         await CameramenController.CreateCameraman(updateCameramanDto);
         Cameramen = (await CameramenController.GetCameramen()).ToList();
         StateHasChanged();

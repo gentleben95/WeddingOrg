@@ -13,9 +13,9 @@ namespace WeddingOrg.DTOs
             string brideEmail, string brideInstagram);
     public record UpdateGroomDto(string groomName, string groomPhoneNumber,
             string groomEmail, string groomInstagram);
-    public record UpdatePhotographerDto(string photographerFacebook, string photographerInstagram);
-    public record UpdateCameramanDto(string cameramanFacebook, string cameramanInstagram);
-    public record UpdateRestaurantDto(string restaurantFacebook, string restaurantInstagram);
+    public record UpdatePhotographerDto(string photographerName, string photographerFacebook, string photographerInstagram);
+    public record UpdateCameramanDto(string cameramanName, string cameramanFacebook, string cameramanInstagram);
+    public record UpdateRestaurantDto(string restaurantName, string restaurantFacebook, string restaurantInstagram);
     public record UpdatePhotoCameraRestaurantDto(string photographerFacebook, string photographerInstagram, 
         string cameramanFacebook, string cameramanInstagram,
         string restaurantFacebook, string restaurantInstagram);
