@@ -1,6 +1,8 @@
 ﻿@page "/addphotographer"
-@inject WeddingOrg.Controllers.PhotographersController PhotographerController
+@inject WeddingOrg.Controllers.PhotographersController PhotographersController
 @using WeddingOrg.DTOs
+@inject NavigationManager NavigationManager
+
 <PageTitle>Dodaj fotografa</PageTitle>
 <RadzenTemplateForm TItem="FilledInfo" Data=@fbInsta Submit=@OnSubmit>
     <RadzenCard Class="my-5 mx-auto" Style="max-width: 400px;">
@@ -10,11 +12,10 @@
         <RadzenTextBox  Placeholder="instagram.com" Name="Instagram" @bind-Value=@fbInsta.Instagram Style="width: 100%;" />
         <div class="row">
             <div class="col-md-12 d-flex align-items-end justify-content-left mt-4">
-                <RadzenButton ButtonType="ButtonType.Submit"  Text="dodaj" />
-                <RadzenButton ButtonStyle="ButtonStyle.Light" style="margin-left: 10px;" Text="anuluj" />
+
             </div>
-        </div>
-        
+            <RadzenButton ButtonType="ButtonType.Submit" Text="dodaj" />
+        </div>       
 
     </RadzenCard>
 </RadzenTemplateForm>
@@ -23,12 +24,18 @@
            @bind="Filter"
            @bind:event="oninput">
 </div>
+<button style="margin:10px" class="btn btn-danger" @onclick="DeleteSelectedPhotographers">Usuń zaznaczone</button>
+
 <table class="table table-striped">
     <thead class="thead-light">
         <tr>
+            <th>
+                <input type="checkbox" @onclick="SelectAll" />
+            </th>
             <th>ID</th>
-            <th>Facebook Fotografa</th>
-            <th>Instagram Fotografa</th>
+            <th>Nazwa fotografa</th>
+            <th>Facebook fotografa</th>
+            <th>Instagram fotografa</th>
         </tr>
     </thead>
     <tbody>
@@ -37,9 +44,13 @@
             if (!IsVisible(photographer))
                 continue;
             <tr>
+                <td><input type="checkbox" @bind="photographer.IsSelected" /></td>
                 <td>
                     @photographer.Id
-                </td>     
+                </td>
+                <td>
+                    @photographer.Name
+                </td>
                 <td>
                     @photographer.Facebook
                 </td>
@@ -55,7 +66,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Photographers = (await PhotographerController.GetPhotographers()).ToList();
+        Photographers = (await PhotographersController.GetPhotographers()).ToList();
     }
     private List<WeddingOrg.Models.Photographer> Photographers = new();
 
@@ -68,9 +79,10 @@
     async void OnSubmit(FilledInfo arg)
     {
         var updatePhotographerDto = new UpdatePhotographerDto(fbInsta.Facebook, fbInsta.Instagram);
-        await PhotographerController.CreatePhotographer(updatePhotographerDto);
-        Photographers = (await PhotographerController.GetPhotographers()).ToList();
+        await PhotographersController.CreatePhotographer(updatePhotographerDto);
+        Photographers = (await PhotographersController.GetPhotographers()).ToList();
         StateHasChanged();
+        NavigationManager.NavigateTo("/addphotographer", true);
     }
 
     public string Filter { get; set; }
@@ -78,10 +90,30 @@
     {
         if (string.IsNullOrEmpty(Filter))
             return true;
+        if (photographer1.Name.Contains(Filter, StringComparison.OrdinalIgnoreCase))
+            return true;
         if (photographer1.Facebook.Contains(Filter, StringComparison.OrdinalIgnoreCase))
             return true;
         if (photographer1.Instagram.Contains(Filter, StringComparison.OrdinalIgnoreCase))
             return true;
         return false;
+    }
+    private void SelectAll()
+    {
+        foreach (var photographer in Photographers)
+        {
+            photographer.IsSelected = true;
+        }
+    }
+
+    private async Task DeleteSelectedPhotographers()
+    {
+        var selectedPhotographers = Photographers.Where(r => r.IsSelected).ToList();
+        foreach (var restaurant in selectedPhotographers)
+        {
+            await PhotographersController.DeletePhotographerById(restaurant.Id, default);
+        }
+        Photographers = (await PhotographersController.GetPhotographers()).ToList();
+        StateHasChanged();
     }
 }

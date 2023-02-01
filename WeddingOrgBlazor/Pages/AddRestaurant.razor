@@ -1,7 +1,8 @@
 ﻿@page "/addrestaurant"
-
 @inject WeddingOrg.Controllers.RestaurantsController RestaurantsController
 @using WeddingOrg.DTOs
+@inject NavigationManager NavigationManager
+
 <PageTitle>Dodaj restaurację</PageTitle>
 <RadzenTemplateForm TItem="FilledInfo" Data=@fbInsta Submit=@OnSubmit>
     <RadzenCard Class="my-5 mx-auto" Style="max-width: 400px;">
@@ -11,21 +12,25 @@
         <RadzenTextBox Placeholder="instagram.com" Name="Instagram" @bind-Value=@fbInsta.Instagram Style="width: 100%;" />
         <div class="row">
             <div class="col-md-12 d-flex align-items-end justify-content-left mt-4">
-                <RadzenButton ButtonType="ButtonType.Submit"  Text="dodaj" />
-                <RadzenButton ButtonStyle="ButtonStyle.Light" style="margin-left: 10px;" Text="anuluj" />
             </div>
+            <RadzenButton ButtonType="ButtonType.Submit" Text="dodaj" />
         </div>
     </RadzenCard>
 </RadzenTemplateForm>
 <div class="form-group">
     <input class="form-control" type="text" placeholder="Filtruj..."
            @bind="Filter"
-           @bind:event="oninput">
+           @bind:event="oninput">    
 </div>
+<button style="margin:10px" class="btn btn-danger" @onclick="DeleteSelectedRestaurants">Usuń zaznaczone</button>
 <table class="table table-striped">
     <thead class="thead-light">
-        <tr>
+        <tr>            
+            <th>
+                <input type="checkbox" @onclick="SelectAll" />                
+                </th>
             <th>ID</th>
+            <th>Nazwa restauracji</th>
             <th>Facebook Restauracji</th>
             <th>Instagram Restauracji</th>
         </tr>
@@ -36,9 +41,13 @@
             if (!IsVisible(restaurant))
                 continue;
             <tr>
+                <td><input type="checkbox" @bind="restaurant.IsSelected" /></td>
                 <td>
                     @restaurant.Id
-                </td>     
+                </td>
+                <td>
+                    @restaurant.Name
+                </td>
                 <td>
                     @restaurant.Facebook
                 </td>
@@ -67,19 +76,40 @@
     async void OnSubmit(FilledInfo arg)
     {
         var updateRestaurantsDto = new UpdateRestaurantDto(fbInsta.Facebook, fbInsta.Instagram);
-        RestaurantsController.CreateRestaurant(updateRestaurantsDto);
+        await RestaurantsController.CreateRestaurant(updateRestaurantsDto);
         Restaurants = (await RestaurantsController.GetRestaurants()).ToList();
         StateHasChanged();
+        NavigationManager.NavigateTo("/addrestaurant", true);
     }
     public string Filter { get; set; }
     public bool IsVisible(WeddingOrg.Models.Restaurant restaurant1)
     {
         if (string.IsNullOrEmpty(Filter))
             return true;
+        if (restaurant1.Name.Contains(Filter, StringComparison.OrdinalIgnoreCase))
+            return true;
         if (restaurant1.Facebook.Contains(Filter, StringComparison.OrdinalIgnoreCase))
             return true;
         if (restaurant1.Instagram.Contains(Filter, StringComparison.OrdinalIgnoreCase))
             return true;
         return false;
+    }
+    private void SelectAll()
+    {
+        foreach (var restaurant in Restaurants)
+        {
+            restaurant.IsSelected = true;
+        }
+    }
+
+    private async Task DeleteSelectedRestaurants()
+    {
+        var selectedRestaurants = Restaurants.Where(r => r.IsSelected).ToList();
+        foreach (var restaurant in selectedRestaurants)
+        {
+            await RestaurantsController.DeleteRestaurantById(restaurant.Id, default);
+        }
+        Restaurants = (await RestaurantsController.GetRestaurants()).ToList();
+        StateHasChanged();
     }
 }

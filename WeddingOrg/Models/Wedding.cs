@@ -12,5 +12,6 @@ namespace WeddingOrg.Models
         public Photographer? Photographer { get; set; }
         public Cameraman? Cameraman { get; set; }
         public Restaurant? Restaurant { get; set; }
+        public bool IsSelected { get; set; }
     }
 }
