@@ -1,6 +1,8 @@
 ﻿@page "/addcameraman"
 @inject WeddingOrg.Controllers.CameramenController CameramenController
 @using WeddingOrg.DTOs
+@inject NavigationManager NavigationManager
+
 <PageTitle>Dodaj kamerzystę</PageTitle>
 <RadzenTemplateForm TItem="FilledInfo" Data=@fbInsta Submit=@OnSubmit>
     <RadzenCard Class="my-5 mx-auto" Style="max-width: 400px;">
@@ -9,10 +11,10 @@
         <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Class="mt-4">Instagram kamerzysty</RadzenText>
         <RadzenTextBox Placeholder="instagram.com" Name="Instagram" @bind-Value=@fbInsta.Instagram  Style="width: 100%;" />
         <div class="row">
-            <div class="col-md-12 d-flex align-items-end justify-content-left mt-4">
-                <RadzenButton ButtonType="ButtonType.Submit"  Text="dodaj" />
+            <div class="col-md-12 d-flex align-items-end justify-content-left mt-4">               
                 
             </div>
+            <RadzenButton ButtonType="ButtonType.Submit" Text="dodaj" />
         </div>
     </RadzenCard>
 </RadzenTemplateForm>
@@ -21,12 +23,18 @@
            @bind="Filter"
            @bind:event="oninput">
 </div>
+<button style="margin:10px" class="btn btn-danger" @onclick="DeleteSelectedCameramen">Usuń zaznaczone</button>
+
 <table class="table table-striped">
     <thead class="thead-light">
         <tr>
+            <th>
+                <input type="checkbox" @onclick="SelectAll" />
+            </th>
             <th>ID</th>
-            <th>Facebook Kamerzysty</th>
-            <th>Instagram Kamerzysty</th>
+            <th>Nazwa kamerzysty</th>
+            <th>Facebook kamerzysty</th>
+            <th>Instagram kamerzysty</th>
         </tr>
     </thead>
     <tbody>
@@ -35,9 +43,13 @@
             if (!IsVisible(cameraman))
                 continue;
             <tr>
+                <td><input type="checkbox" @bind="cameraman.IsSelected" /></td>
                 <td>
                     @cameraman.Id
-                </td>     
+                </td>
+                <td>
+                    @cameraman.Name
+                </td>
                 <td>
                     @cameraman.Facebook
                 </td>
@@ -68,6 +80,7 @@
         await CameramenController.CreateCameraman(updateCameramanDto);
         Cameramen = (await CameramenController.GetCameramen()).ToList();
         StateHasChanged();
+        NavigationManager.NavigateTo("/addcameraman", true);
     }
 
     public string Filter { get; set; }
@@ -75,10 +88,31 @@
     {
         if (string.IsNullOrEmpty(Filter))
             return true;
+        if (cameraman1.Name.Contains(Filter, StringComparison.OrdinalIgnoreCase))
+            return true;
         if (cameraman1.Facebook.Contains(Filter, StringComparison.OrdinalIgnoreCase))
             return true;
         if (cameraman1.Instagram.Contains(Filter, StringComparison.OrdinalIgnoreCase))
             return true;
         return false;
     }
+    private void SelectAll()
+    {
+        foreach (var cameraman in Cameramen)
+        {
+            cameraman.IsSelected = true;
+        }
+    }
+
+    private async Task DeleteSelectedCameramen()
+    {
+        var selectedCameramen = Cameramen.Where(r => r.IsSelected).ToList();
+        foreach (var restaurant in selectedCameramen)
+        {
+            await CameramenController.DeleteCameramanById(restaurant.Id, default);
+        }
+        Cameramen = (await CameramenController.GetCameramen()).ToList();
+        StateHasChanged();
+    }
+
 }

@@ -52,8 +52,8 @@ namespace WeddingOrg.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCameramanById(int id, CancellationToken cancellationToken)
         {
-            var wedding = await _weddingsRepository.DeleteWeddingById(id, cancellationToken);
-            if (wedding == default) { return BadRequest($"Nie ma kamerzysty z ID o numerze [{id}]"); }
+            var cameraman = await _weddingsRepository.DeleteCameramanById(id, cancellationToken);
+            if (cameraman == default) { return BadRequest($"Nie ma kamerzysty z ID o numerze [{id}]"); }
             return Ok();
         }
         [HttpPut("{weddingId}/concatenatecamera")]

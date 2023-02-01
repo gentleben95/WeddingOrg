@@ -7,9 +7,10 @@
 @inject NavigationManager Navigation
 @inject IJSRuntime JSRuntime
 @using WeddingOrg.DTOs
+@inject NavigationManager NavigationManager
 
 <PageTitle>Dodaj wesele</PageTitle>
-<RadzenTemplateForm TItem="FilledInfo" Data=@addWedding Submit=@OnSubmit>
+<RadzenTemplateForm  TItem="FilledInfo" Data=@addWedding Submit=@OnSubmit>
     <RadzenCard Class="my-5 mx-auto" Style="max-width: 400px;">
         <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H5">Data podpisania umowy*</RadzenText>
         <RadzenTextBox Placeholder="dd.mm.rrrr" Name="DateOfSigning" @bind-Value=@addWedding.DateOfSigning Style="width: 100%;" />
@@ -53,8 +54,9 @@
             <div class="container-fluid button-demo">
                     <div class="row">
             <div class="col-md-12 d-flex align-items-end justify-content-left mt-4">
-                    <RadzenButton ButtonType="ButtonType.Submit" Shade="Shade.Lighter" Text="Dodaj" ButtonStyle="ButtonStyle.Primary" />                               
-            </div>
+                    
+                </div>
+                <RadzenButton ButtonType="ButtonType.Submit" Text="Dodaj" Style="margin-bottom: 16px" />
         </div>
         </div>
     </RadzenCard>
@@ -64,10 +66,14 @@
            @bind="Filter"
            @bind:event="oninput">
 </div>
+<button style="margin:10px" class="btn btn-danger" @onclick="DeleteSelectedWeddings">Usuń zaznaczone</button>
 <table class="table table-striped">
     <thead class="thead-light">
         <tr>
-                <th>ID</th><th>Data umowy</th> <th>Data wesela</th> <th>Panna młoda</th><th>Pan młody</th>                
+            <th>
+                <input type="checkbox" @onclick="SelectAll" />                
+                </th>
+            <th>ID</th><th>Data umowy</th> <th>Data wesela</th> <th>Panna młoda</th><th>Pan młody</th>                
                 <th>Fotograf</th>   <th>Kamerzysta</th> <th>Restauracja</th>
             </tr>
     </thead>
@@ -77,6 +83,7 @@
             if (!IsVisible(wedding))
                 continue;
             <tr>
+                <td><input type="checkbox" @bind="wedding.IsSelected" /></td>
                 <td>@wedding.Id</td>  
                 <td>@wedding.DateOfSigningTheContract</td>
                 <td>@wedding.DateOfTheWedding</td>
@@ -92,13 +99,13 @@
                 <td>
                         @if (wedding.Cameraman != null)
                         {
-                            @wedding.Cameraman.Facebook;
+                            @wedding.Cameraman.Name;
                         }
                     </td>
                     <td>
                         @if (wedding.Restaurant != null)
                         {
-                            @wedding.Restaurant.Facebook;
+                            @wedding.Restaurant.Name;
                         }
                     </td>
             </tr>
@@ -117,7 +124,11 @@
     private List<WeddingOrg.Models.Cameraman> Cameramen = new();
     private List<WeddingOrg.Models.Photographer> Photographers = new();
     private List<WeddingOrg.Models.Restaurant> Restaurants = new();
-
+    private void ResetForm()
+    {
+        addWedding = new FilledInfo();
+    }
+    private string form {get; set;}
     public class FilledInfo
     {
         public string? DateOfSigning { get; set; }
@@ -151,7 +162,8 @@
         await CameramenController.AddCameramanToWedding(result, addWedding.SelectedCameramanId);
         await RestaurantsController.AddRestaurantToWedding(result, addWedding.SelectedRestaurantId);
         Weddings = (await WeddingsController.GetWeddings()).ToList();
-        StateHasChanged();        
+        StateHasChanged();
+        NavigationManager.NavigateTo("/addwedding", true);
     } 
     public string Filter { get; set; }
     public bool IsVisible(
@@ -171,13 +183,31 @@
             return true;
         if (wedding1.DateOfSigningTheContract.Contains(Filter, StringComparison.OrdinalIgnoreCase))
             return true;
-        if (wedding1.Cameraman.Facebook.Contains(Filter, StringComparison.OrdinalIgnoreCase))
+        if (wedding1.Cameraman.Name.Contains(Filter, StringComparison.OrdinalIgnoreCase))
             return true;
-        if (wedding1.Photographer.Facebook.Contains(Filter, StringComparison.OrdinalIgnoreCase))
+        if (wedding1.Photographer.Name.Contains(Filter, StringComparison.OrdinalIgnoreCase))
             return true;
-        if (wedding1.Restaurant.Facebook.Contains(Filter, StringComparison.OrdinalIgnoreCase))
+        if (wedding1.Restaurant.Name.Contains(Filter, StringComparison.OrdinalIgnoreCase))
             return true;
         return false;
+    }
+    private void SelectAll()
+    {
+        foreach (var weddings in Weddings)
+        {
+            weddings.IsSelected = true;
+        }
+    }
+
+    private async Task DeleteSelectedWeddings()
+    {
+        var selectedWeddings = Weddings.Where(r => r.IsSelected).ToList();
+        foreach (var weddings in selectedWeddings)
+        {
+            await WeddingsController.DeleteWeddingById(weddings.Id, default);
+        }
+        Weddings = (await WeddingsController.GetWeddings()).ToList();
+        StateHasChanged();
     }
     
 }

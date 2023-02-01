@@ -36,6 +36,9 @@ namespace WeddingOrg.Migrations
                     b.Property<string>("Instagram")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsSelected")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -65,6 +68,13 @@ namespace WeddingOrg.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsSelected")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Cameramen");
@@ -83,6 +93,9 @@ namespace WeddingOrg.Migrations
 
                     b.Property<string>("Instagram")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsSelected")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -113,6 +126,13 @@ namespace WeddingOrg.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsSelected")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Photographers");
@@ -131,6 +151,13 @@ namespace WeddingOrg.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Instagram")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsSelected")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -164,6 +191,9 @@ namespace WeddingOrg.Migrations
                     b.Property<int>("GroomId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsSelected")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("PhotographerId")
                         .HasColumnType("int");
 
@@ -194,7 +224,7 @@ namespace WeddingOrg.Migrations
                         .IsRequired();
 
                     b.HasOne("WeddingOrg.Models.Cameraman", "Cameraman")
-                        .WithMany("Weddings")
+                        .WithMany()
                         .HasForeignKey("CameramanId");
 
                     b.HasOne("WeddingOrg.Models.Groom", "Groom")
@@ -220,11 +250,6 @@ namespace WeddingOrg.Migrations
                     b.Navigation("Photographer");
 
                     b.Navigation("Restaurant");
-                });
-
-            modelBuilder.Entity("WeddingOrg.Models.Cameraman", b =>
-                {
-                    b.Navigation("Weddings");
                 });
 #pragma warning restore 612, 618
         }
