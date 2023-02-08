@@ -12,3 +12,6 @@ Project is created with:
 * Blazor
 * HTML
 * CSS
+
+![image](https://user-images.githubusercontent.com/111108615/217516581-9c3a5c4e-d3b1-4f19-8a01-201b07978f12.png)
+
