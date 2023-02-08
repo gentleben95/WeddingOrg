@@ -15,7 +15,7 @@ Project is created with:
 
 ## Screenshots
 
-![image](https://user-images.githubusercontent.com/111108615/217516581-9c3a5c4e-d3b1-4f19-8a01-201b07978f12.png)
+![image](https://user-images.githubusercontent.com/111108615/217517997-37b1ea8d-9a83-4a67-981f-57cbe8e9e7cb.png)
 
 ![image](https://user-images.githubusercontent.com/111108615/217517000-1a5f162a-e46e-4224-849b-d37d3db5131a.png)
 
