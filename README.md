@@ -4,11 +4,13 @@ Wedding Organizer is a Web Application made especially for DJs, to help them cre
 With this app you can create or delete weddings, photographers, cameramen and restaurants.
 
 ## Technologies
+Project is created with:
+* .Net 7.0
 * C#
 * Blazor
 * HTML
 * CSS
 
-## View
+## Use
 
-You can view the project on: https://weddinggroup2.azurewebsites.net/
+You can use the project on: https://weddinggroup2.azurewebsites.net/
