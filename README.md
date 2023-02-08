@@ -1,6 +1,6 @@
 # Wedding Organizer
 
-Wedding Organizer is a Web Application made especially for DJs, to help them create a database with their Weddings
+Wedding Organizer is a Web Application made especially for DJs, to help them create a database with their weddings
 With this app you can create or delete weddings, photographers, cameramen and restaurants.
 
 ## Technologies
@@ -9,3 +9,6 @@ With this app you can create or delete weddings, photographers, cameramen and re
 * HTML
 * CSS
 
+## View
+
+You can view the project on: https://weddinggroup2.azurewebsites.net/
