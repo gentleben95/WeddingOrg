@@ -7,8 +7,7 @@ You can see the finished project on: https://weddinggroup2.azurewebsites.net/
 
 ## Technologies
 Project is created with:
-* .Net 7.0
-* C#
+* .Net 7.0 (C#)
 * Blazor
 * HTML
 * CSS
