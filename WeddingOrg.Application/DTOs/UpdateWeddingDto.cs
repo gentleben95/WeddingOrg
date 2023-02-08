@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WeddingOrg.DTOs
+namespace WeddingOrg.Application.DTOs
 {
-    
+
     public record UpdateWeddingDto(string dateOfSigningTheContract, string dateOfTheWedding,
             string brideName, string bridePhoneNumber,
             string brideEmail, string brideInstagram,
@@ -16,7 +16,7 @@ namespace WeddingOrg.DTOs
     public record UpdatePhotographerDto(string photographerName, string photographerFacebook, string photographerInstagram);
     public record UpdateCameramanDto(string cameramanName, string cameramanFacebook, string cameramanInstagram);
     public record UpdateRestaurantDto(string restaurantName, string restaurantFacebook, string restaurantInstagram);
-    public record UpdatePhotoCameraRestaurantDto(string photographerFacebook, string photographerInstagram, 
+    public record UpdatePhotoCameraRestaurantDto(string photographerFacebook, string photographerInstagram,
         string cameramanFacebook, string cameramanInstagram,
         string restaurantFacebook, string restaurantInstagram);
     public record UpdateWeddingBrideGroomDto(string dateOfSigningTheContract, string dateOfTheWedding,

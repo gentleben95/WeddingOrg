@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WeddingOrg.Data;
-using WeddingOrg.Models;
-using WeddingOrg.Repositories;
 using System.Collections;
 using Microsoft.AspNetCore.Server.IIS.Core;
-using WeddingOrg.DTOs;
-using WeddingOrg.Views;
+using WeddingOrg.Domain.Entities;
+using WeddingOrg.Application.DTOs;
+using WeddingOrg.Application.Interfaces;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -33,7 +31,7 @@ namespace WeddingOrg.Controllers
 
         //GET api/<WeddingsController>/5 
         [HttpGet("{id}")]
-        public async Task<ActionResult<FullWeddingView>> GetWeddingsById(int id, CancellationToken cancellationToken)
+        public async Task<ActionResult<Wedding>> GetWeddingsById(int id, CancellationToken cancellationToken)
         {
             var wedding = await _weddingsRepository.GetWeddingById(id, cancellationToken);
             if (wedding == default) { return BadRequest($"Nie ma wesela z ID o numerze [{id}]"); }

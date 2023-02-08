@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using WeddingOrg.Data;
-using WeddingOrg.Models;
-using WeddingOrg.Repositories;
+using WeddingOrg.Application.Interfaces;
+using WeddingOrg.Infrastructure.Data;
+using WeddingOrg.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 

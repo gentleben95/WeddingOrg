@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WeddingOrg.Data;
-using WeddingOrg.Models;
-using WeddingOrg.Repositories;
 using System.Collections;
 using Microsoft.AspNetCore.Server.IIS.Core;
-using WeddingOrg.DTOs;
+using WeddingOrg.Domain.Entities;
+using WeddingOrg.Application.DTOs;
+using WeddingOrg.Application.Interfaces;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

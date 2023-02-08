@@ -1,20 +1,16 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Runtime.CompilerServices;
-using System.Threading;
-using WeddingOrg.Data;
-using WeddingOrg.DTOs;
-using WeddingOrg.Exceptions;
-using WeddingOrg.Models;
-using WeddingOrg.Views;
- 
-namespace WeddingOrg.Repositories
+﻿using Microsoft.EntityFrameworkCore;
+using WeddingOrg.Application.DTOs;
+using WeddingOrg.Application.Exceptions;
+using WeddingOrg.Application.Interfaces;
+using WeddingOrg.Domain.Entities;
+using WeddingOrg.Infrastructure.Data;
+
+namespace WeddingOrg.Infrastructure.Repositories
 {
     public class WeddingsRepository : IWeddingsRepository
     {
         public readonly ApplicationDbContext _dbContext;
-        
+
         public WeddingsRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
@@ -23,8 +19,8 @@ namespace WeddingOrg.Repositories
         {
             var wedding = await _dbContext.Weddings
                 .Include(x => x.Bride)
-                .Include(x => x.Groom)   
-                .ToListAsync(cancellationToken);           
+                .Include(x => x.Groom)
+                .ToListAsync(cancellationToken);
             var cameraman = await _dbContext.Cameramen.ToListAsync(cancellationToken);
             var restaurant = await _dbContext.Restaurants.ToListAsync(cancellationToken);
             return wedding;
@@ -126,7 +122,7 @@ namespace WeddingOrg.Repositories
             };
             await _dbContext.Weddings.AddAsync(wedding);
             await _dbContext.SaveChangesAsync();
-            return wedding.Id;          
+            return wedding.Id;
         }
         public async Task<int> CreateFullWeedingRepository(UpdateFullWeddingDto dto)
         {
@@ -165,7 +161,7 @@ namespace WeddingOrg.Repositories
             };
             await _dbContext.AddAsync(photographer);
             await _dbContext.SaveChangesAsync();
-            return photographer.Id; 
+            return photographer.Id;
         }
         public async Task<int> CreateCameraman(UpdateCameramanDto dto)
         {
@@ -191,7 +187,7 @@ namespace WeddingOrg.Repositories
             await _dbContext.SaveChangesAsync();
             return restaurant.Id;
         }
-        
+
         public async Task<int> ChangeWedding(int weddingId, UpdateWeddingDto dto, CancellationToken cancellationToken)
         {
             var wedding = await _dbContext.Weddings.SingleOrDefaultAsync(w => w.Id == weddingId, cancellationToken);
@@ -202,7 +198,7 @@ namespace WeddingOrg.Repositories
         }
         public async Task<int> ChangeBride(int brideId, UpdateBrideDto dto, CancellationToken cancellationToken)
         {
-            var bride = await _dbContext.Brides.SingleOrDefaultAsync(w => w.Id == brideId, cancellationToken);            
+            var bride = await _dbContext.Brides.SingleOrDefaultAsync(w => w.Id == brideId, cancellationToken);
             bride.Name = dto.brideName;
             bride.PhoneNumber = dto.bridePhoneNumber;
             bride.Email = dto.brideEmail;

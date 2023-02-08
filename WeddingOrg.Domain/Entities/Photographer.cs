@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using WeddingOrg.Common;
 
-namespace WeddingOrg.Models
+namespace WeddingOrg.Domain.Entities
 {
-    public class Restaurant : Entity
+    public class Photographer : Entity
     {
         [Required]
         public string Name { get; set; }

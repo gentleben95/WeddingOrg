@@ -1,15 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using WeddingOrg.DTOs;
-using WeddingOrg.Models;
-using WeddingOrg.Views;
+﻿using WeddingOrg.Application.DTOs;
+using WeddingOrg.Domain.Entities;
 
-namespace WeddingOrg.Repositories
+namespace WeddingOrg.Application.Interfaces
 {
     public interface IWeddingsRepository
     {
         // Get        
-        Task<IEnumerable<Wedding>> GetWeddings(CancellationToken cancellationToken);        
+        Task<IEnumerable<Wedding>> GetWeddings(CancellationToken cancellationToken);
         Task<IEnumerable<Photographer>> GetPhotographers(CancellationToken cancellationToken);
         Task<IEnumerable<Cameraman>> GetCameramen(CancellationToken cancellationToken);
         Task<IEnumerable<Restaurant>> GetRestaurants(CancellationToken cancellationToken);
