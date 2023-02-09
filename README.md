@@ -14,7 +14,7 @@ Project is created with:
 
 ## In progress
 Currently working at:
-1. Clean architecture (done in branch feat. init)
+1. Clean architecture (done in branch: feat. init)
 2. CQRS+MediatR
 3. Validation
 4. Unit Tests
