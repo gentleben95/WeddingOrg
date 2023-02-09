@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Server.IIS.Core;
 using WeddingOrg.Domain.Entities;
 using WeddingOrg.Application.DTOs;
 using WeddingOrg.Application.Interfaces;
+using WeddingOrg.Application.Cameramen.DTOs;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -38,13 +39,13 @@ namespace WeddingOrg.Controllers
             return Ok(cameraman + $"Znaleziono kamerzysty z ID o numerze [{id}]");
         }
         [HttpPost]
-        public async Task<IActionResult> CreateCameraman([FromBody] UpdateCameramanDto dto)
+        public async Task<IActionResult> CreateCameraman([FromBody] CameramanDto dto)
         {
             await _weddingsRepository.CreateCameraman(dto);
             return NoContent();
         }
         [HttpPut("{id}")]
-        public void ChangeWedding(int id, [FromBody] UpdateCameramanDto dto, CancellationToken cancellationToken)
+        public void ChangeWedding(int id, [FromBody] CameramanDto dto, CancellationToken cancellationToken)
         {
             var wedding = _weddingsRepository.ChangeCameraman(id, dto, cancellationToken);
         }

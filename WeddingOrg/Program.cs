@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using WeddingOrg.Application.Interfaces;
+using WeddingOrg.Infrastructure;
 using WeddingOrg.Infrastructure.Data;
 using WeddingOrg.Infrastructure.Repositories;
 
@@ -12,10 +13,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<IWeddingsRepository, WeddingsRepository>();
-builder.Services.AddDbContext<ApplicationDbContext>(options
-    => options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddInfrastructureServices(builder.Configuration);
 
 var app = builder.Build();
 

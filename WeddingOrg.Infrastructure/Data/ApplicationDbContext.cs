@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using WeddingOrg.Application.Interfaces;
 using WeddingOrg.Domain.Entities;
 
 namespace WeddingOrg.Infrastructure.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {

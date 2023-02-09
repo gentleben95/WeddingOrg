@@ -12,8 +12,4 @@
     <PackageReference Include="Radzen.Design" Version="0.0.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\WeddingOrg\WeddingOrg.csproj" />
-  </ItemGroup>
-
 </Project>

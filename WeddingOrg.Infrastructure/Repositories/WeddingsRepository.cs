@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using WeddingOrg.Application.Cameramen.DTOs;
 using WeddingOrg.Application.DTOs;
 using WeddingOrg.Application.Exceptions;
 using WeddingOrg.Application.Interfaces;
@@ -151,6 +152,7 @@ namespace WeddingOrg.Infrastructure.Repositories
             await _dbContext.SaveChangesAsync();
             return wedding.Id;
         }
+
         public async Task<int> CreatePhotographer(UpdatePhotographerDto dto)
         {
             Photographer photographer = new()
@@ -163,7 +165,7 @@ namespace WeddingOrg.Infrastructure.Repositories
             await _dbContext.SaveChangesAsync();
             return photographer.Id;
         }
-        public async Task<int> CreateCameraman(UpdateCameramanDto dto)
+        public async Task<int> CreateCameraman(CameramanDto dto)
         {
             Cameraman cameraman = new()
             {
@@ -224,7 +226,7 @@ namespace WeddingOrg.Infrastructure.Repositories
             await _dbContext.SaveChangesAsync();
             return photographer.Id;
         }
-        public async Task<int> ChangeCameraman(int cameramanId, UpdateCameramanDto dto, CancellationToken cancellationToken)
+        public async Task<int> ChangeCameraman(int cameramanId, CameramanDto dto, CancellationToken cancellationToken)
         {
             var cameraman = await _dbContext.Cameramen.SingleOrDefaultAsync(w => w.Id == cameramanId, cancellationToken);
             cameraman.Facebook = dto.cameramanFacebook;
