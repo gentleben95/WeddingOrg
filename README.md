@@ -18,6 +18,7 @@ Currently working at:
 2. CQRS+MediatR
 3. Validation
 4. Unit Tests
+5. Blazor: to call http instead of Controllers.
 
 ## Screenshots
 
