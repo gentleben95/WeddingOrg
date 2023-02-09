@@ -12,6 +12,13 @@ Project is created with:
 * HTML
 * CSS
 
+## In progress
+Currently working at:
+1. Clean architecture (done in branch feat. init)
+2. CQRS+MediatR
+3. Validation
+4. Unit Tests
+
 ## Screenshots
 
 ![image](https://user-images.githubusercontent.com/111108615/217517997-37b1ea8d-9a83-4a67-981f-57cbe8e9e7cb.png)
