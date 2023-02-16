@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using WeddingOrgBlazor.Data;
+using MediatR;
 
 namespace WeddingOrgBlazor
 {
@@ -15,7 +16,7 @@ namespace WeddingOrgBlazor
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
             var app = builder.Build();
-
+             
             
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
