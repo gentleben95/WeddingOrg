@@ -6,7 +6,6 @@ using WeddingOrg.Domain.Entities;
 using WeddingOrg.Application.DTOs;
 using WeddingOrg.Application.Interfaces;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WeddingOrg.Controllers
 {
@@ -14,7 +13,6 @@ namespace WeddingOrg.Controllers
     [ApiController]
     public class PhotographersController : ControllerBase
     {
-
         private readonly IWeddingsRepository _weddingsRepository;
         public PhotographersController(IWeddingsRepository weddingsRepository)
         {

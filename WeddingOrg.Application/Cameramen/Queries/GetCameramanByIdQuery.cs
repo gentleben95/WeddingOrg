@@ -14,15 +14,7 @@ using WeddingOrg.Domain.Entities;
 namespace WeddingOrg.Application.Cameramen.Queries
 {
     public record GetCameramanByIdQuery(int Id) : IRequest<CameramanDto>;
-    //public class GetCameramanByIdQuery : IRequest<CameramanDto>
-    //{
-    //    public int Id { get; set; }
 
-    //    public GetCameramanByIdQuery(int id)
-    //    {
-    //        Id = id;
-    //    }
-    //}
     public class GetCameramanByIdQueryHandler : IRequestHandler<GetCameramanByIdQuery, CameramanDto>
     {
         private readonly IWeddingsRepository _photographerRepository;
@@ -36,16 +28,13 @@ namespace WeddingOrg.Application.Cameramen.Queries
 
         public async Task<CameramanDto> Handle(GetCameramanByIdQuery request, CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(new GetCameramenQuery());
-            var output = result.
-            //var cameraman = await _photographerRepository.GetCameramanById(request.Id, cancellationToken);
-            //if (cameraman == default)
-            //{
-            //    throw new WeddingNotFoundException($"Photographer with {request.Id} does not exist.");
-            //}
-
-            //var cameramanDto = new CameramanDto(cameraman.Name, cameraman.Facebook, cameraman.Instagram);
-            //return cameramanDto;
+            var cameraman = await _photographerRepository.GetCameramanById(request.Id, cancellationToken);
+            if (cameraman == default)
+            {
+                throw new WeddingNotFoundException($"Cameraman with ID nr {request.Id} does not exist.");
+            }
+            var cameramanDto = new CameramanDto(cameraman.Name, cameraman.Facebook, cameraman.Instagram);
+            return cameramanDto;
         }
     }
 }

@@ -6,6 +6,9 @@ using WeddingOrg.Domain.Entities;
 using WeddingOrg.Application.DTOs;
 using WeddingOrg.Application.Interfaces;
 using WeddingOrg.Application.Cameramen.DTOs;
+using MediatR;
+using WeddingOrg.Application.Cameramen.Queries;
+using WeddingOrg.Application.Cameramen.Commands;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,37 +20,35 @@ namespace WeddingOrg.Controllers
     {
 
         private readonly IWeddingsRepository _weddingsRepository;
+        private readonly IMediator _mediator;
 
-        public CameramenController(IWeddingsRepository weddingsRepository)
+        public CameramenController(IWeddingsRepository weddingsRepository, IMediator mediator)
         {
             _weddingsRepository = weddingsRepository;
+            _mediator = mediator;
         }
         // GET: api/<WeddingsController>
         [HttpGet]
-        public async Task<IEnumerable<Cameraman>> GetCameramen(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<CameramanDto>> GetCameramen(CancellationToken cancellationToken)
         {
-            var cameraman = await _weddingsRepository.GetCameramen(cancellationToken);
-            return cameraman;
+            return await _mediator.Send(new GetCameramenQuery());
         }
 
         //GET api/<WeddingsController>/5 
         [HttpGet("{id}")]
-        public async Task<ActionResult<int>> GetCameramanById(int id, CancellationToken cancellationToken)
+        public async Task<CameramanDto> GetCameramanById(int id, CancellationToken cancellationToken)
         {
-            var cameraman = await _weddingsRepository.GetCameramanById(id, cancellationToken);
-            if (cameraman == default) { return BadRequest($"Nie ma kamerzysty z ID o numerze [{id}]"); }
-            return Ok(cameraman + $"Znaleziono kamerzysty z ID o numerze [{id}]");
+            return await _mediator.Send(new GetCameramanByIdQuery(id));
         }
         [HttpPost]
-        public async Task<IActionResult> CreateCameraman([FromBody] CameramanDto dto)
+        public async Task<CameramanDto> CreateCameraman([FromBody] CameramanDto dto)
         {
-            await _weddingsRepository.CreateCameraman(dto);
-            return NoContent();
+            return await _mediator.Send(new CreateCameramanCommand(dto));
         }
         [HttpPut("{id}")]
         public void ChangeWedding(int id, [FromBody] CameramanDto dto, CancellationToken cancellationToken)
         {
-            var wedding = _weddingsRepository.ChangeCameraman(id, dto, cancellationToken);
+            _weddingsRepository.ChangeCameraman(id, dto, cancellationToken);
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCameramanById(int id, CancellationToken cancellationToken)

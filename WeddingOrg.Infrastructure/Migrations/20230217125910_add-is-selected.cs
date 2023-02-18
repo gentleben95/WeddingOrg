@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace WeddingOrg.Migrations
+namespace WeddingOrg.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Initialize : Migration
+    public partial class addisselected : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

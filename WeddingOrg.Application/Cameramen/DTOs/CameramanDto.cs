@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace WeddingOrg.Application.Cameramen.DTOs
 {
-    public record CameramanDto(string cameramanName, string cameramanFacebook, string cameramanInstagram);
+    public record CameramanDto(string cameramanName, string? cameramanFacebook, string? cameramanInstagram);
 }

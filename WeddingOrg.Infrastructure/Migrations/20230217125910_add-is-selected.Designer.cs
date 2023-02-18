@@ -9,11 +9,11 @@ using WeddingOrg.Infrastructure.Data;
 
 #nullable disable
 
-namespace WeddingOrg.Migrations
+namespace WeddingOrg.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230201092907_Initialize")]
-    partial class Initialize
+    [Migration("20230217125910_add-is-selected")]
+    partial class addisselected
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace WeddingOrg.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("WeddingOrg.Models.Bride", b =>
+            modelBuilder.Entity("WeddingOrg.Domain.Entities.Bride", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -55,7 +55,7 @@ namespace WeddingOrg.Migrations
                     b.ToTable("Brides");
                 });
 
-            modelBuilder.Entity("WeddingOrg.Models.Cameraman", b =>
+            modelBuilder.Entity("WeddingOrg.Domain.Entities.Cameraman", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -83,7 +83,7 @@ namespace WeddingOrg.Migrations
                     b.ToTable("Cameramen");
                 });
 
-            modelBuilder.Entity("WeddingOrg.Models.Groom", b =>
+            modelBuilder.Entity("WeddingOrg.Domain.Entities.Groom", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -113,7 +113,7 @@ namespace WeddingOrg.Migrations
                     b.ToTable("Grooms");
                 });
 
-            modelBuilder.Entity("WeddingOrg.Models.Photographer", b =>
+            modelBuilder.Entity("WeddingOrg.Domain.Entities.Photographer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -141,7 +141,7 @@ namespace WeddingOrg.Migrations
                     b.ToTable("Photographers");
                 });
 
-            modelBuilder.Entity("WeddingOrg.Models.Restaurant", b =>
+            modelBuilder.Entity("WeddingOrg.Domain.Entities.Restaurant", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -169,7 +169,7 @@ namespace WeddingOrg.Migrations
                     b.ToTable("Restaurants");
                 });
 
-            modelBuilder.Entity("WeddingOrg.Models.Wedding", b =>
+            modelBuilder.Entity("WeddingOrg.Domain.Entities.Wedding", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -218,29 +218,29 @@ namespace WeddingOrg.Migrations
                     b.ToTable("Weddings");
                 });
 
-            modelBuilder.Entity("WeddingOrg.Models.Wedding", b =>
+            modelBuilder.Entity("WeddingOrg.Domain.Entities.Wedding", b =>
                 {
-                    b.HasOne("WeddingOrg.Models.Bride", "Bride")
+                    b.HasOne("WeddingOrg.Domain.Entities.Bride", "Bride")
                         .WithMany()
                         .HasForeignKey("BrideId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WeddingOrg.Models.Cameraman", "Cameraman")
+                    b.HasOne("WeddingOrg.Domain.Entities.Cameraman", "Cameraman")
                         .WithMany()
                         .HasForeignKey("CameramanId");
 
-                    b.HasOne("WeddingOrg.Models.Groom", "Groom")
+                    b.HasOne("WeddingOrg.Domain.Entities.Groom", "Groom")
                         .WithMany()
                         .HasForeignKey("GroomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WeddingOrg.Models.Photographer", "Photographer")
+                    b.HasOne("WeddingOrg.Domain.Entities.Photographer", "Photographer")
                         .WithMany()
                         .HasForeignKey("PhotographerId");
 
-                    b.HasOne("WeddingOrg.Models.Restaurant", "Restaurant")
+                    b.HasOne("WeddingOrg.Domain.Entities.Restaurant", "Restaurant")
                         .WithMany()
                         .HasForeignKey("RestaurantId");
 

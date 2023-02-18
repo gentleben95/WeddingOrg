@@ -9,7 +9,7 @@ namespace WeddingOrg.Application.Interfaces
         // Get        
         Task<IEnumerable<Wedding>> GetWeddings(CancellationToken cancellationToken);
         Task<IEnumerable<Photographer>> GetPhotographers(CancellationToken cancellationToken);
-        Task<IEnumerable<Cameraman>> GetCameramen(CancellationToken cancellationToken);
+        Task<IReadOnlyCollection<Cameraman>> GetCameramen(CancellationToken cancellationToken);
         Task<IEnumerable<Restaurant>> GetRestaurants(CancellationToken cancellationToken);
 
         //GetById
@@ -24,7 +24,7 @@ namespace WeddingOrg.Application.Interfaces
         Task<int> CreateWeedingBrideGroom(UpdateWeddingBrideGroomDto dto);
         Task<int> CreateFullWeedingRepository(UpdateFullWeddingDto dto);
         Task<int> CreatePhotographer(UpdatePhotographerDto dto);
-        Task<int> CreateCameraman(CameramanDto dto);
+        Task<CameramanDto> CreateCameraman(CameramanDto dto);
         Task<int> CreateRestaurant(UpdateRestaurantDto dto);
 
         //Change

@@ -32,7 +32,7 @@ namespace WeddingOrg.Infrastructure.Repositories
                 .ToListAsync(cancellationToken);
             return photographer;
         }
-        public async Task<IEnumerable<Cameraman>> GetCameramen(CancellationToken cancellationToken)
+        public async Task<IReadOnlyCollection<Cameraman>> GetCameramen(CancellationToken cancellationToken)
         {
             var cameraman = await _dbContext.Cameramen
                 .ToListAsync(cancellationToken);
@@ -165,17 +165,17 @@ namespace WeddingOrg.Infrastructure.Repositories
             await _dbContext.SaveChangesAsync();
             return photographer.Id;
         }
-        public async Task<int> CreateCameraman(CameramanDto dto)
+        public async Task<CameramanDto> CreateCameraman(CameramanDto dto)
         {
             Cameraman cameraman = new()
             {
+                Name = dto.cameramanName,
                 Facebook = dto.cameramanFacebook,
-                Instagram = dto.cameramanInstagram,
-                Name = dto.cameramanName
+                Instagram = dto.cameramanInstagram                
             };
             await _dbContext.AddAsync(cameraman);
             await _dbContext.SaveChangesAsync();
-            return cameraman.Id;
+            return new CameramanDto (cameraman.Name, cameraman.Facebook, cameraman.Instagram);
         }
         public async Task<int> CreateRestaurant(UpdateRestaurantDto dto)
         {

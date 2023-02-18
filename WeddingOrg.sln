@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeddingOrg.Infrastructure",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeddingOrg.Domain", "WeddingOrg.Domain\WeddingOrg.Domain.csproj", "{0589FBB2-2271-4992-8864-01AE3009EF83}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeddingOrg.Application.Tests", "tests\WeddingOrg.Application.Tests\WeddingOrg.Application.Tests.csproj", "{0870C239-FEBC-4ACA-B6E2-256A283E070B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{C9F044AE-D37F-4571-AC48-C6149CE2A815}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,9 +43,16 @@ Global
 		{0589FBB2-2271-4992-8864-01AE3009EF83}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0589FBB2-2271-4992-8864-01AE3009EF83}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0589FBB2-2271-4992-8864-01AE3009EF83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0870C239-FEBC-4ACA-B6E2-256A283E070B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0870C239-FEBC-4ACA-B6E2-256A283E070B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0870C239-FEBC-4ACA-B6E2-256A283E070B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0870C239-FEBC-4ACA-B6E2-256A283E070B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0870C239-FEBC-4ACA-B6E2-256A283E070B} = {C9F044AE-D37F-4571-AC48-C6149CE2A815}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E90A7F28-D9F3-45B2-9EF5-AB4965FDAB02}
