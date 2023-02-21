@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WeddingOrg.Application.Cameramen.DTOs;
+using WeddingOrg.Application.Models.Cameramen.DTOs;
 using WeddingOrg.Application.Interfaces;
 
-namespace WeddingOrg.Application.Cameramen.Commands
+namespace WeddingOrg.Application.Models.Cameramen.Commands
 {
     public record CreateCameramanCommand(CameramanDto CameramanDto) : IRequest<CameramanDto>;
     
@@ -18,8 +18,8 @@ namespace WeddingOrg.Application.Cameramen.Commands
         public CreateCameramanCommandValidator()
         {
             RuleFor(x => x.CameramanDto.cameramanName).NotEmpty().MaximumLength(50);
-            RuleFor(x => x.CameramanDto.cameramanFacebook).MaximumLength(100);
-            RuleFor(x => x.CameramanDto.cameramanInstagram).MaximumLength(100);
+            RuleFor(x => x.CameramanDto.cameramanFacebook).MaximumLength(60);
+            RuleFor(x => x.CameramanDto.cameramanInstagram).MaximumLength(60);
         }
     }
 
@@ -35,7 +35,6 @@ namespace WeddingOrg.Application.Cameramen.Commands
         {
             await _weddingsRepository.CreateCameraman(request.CameramanDto);
             return request.CameramanDto;
-
         }
     }
 }

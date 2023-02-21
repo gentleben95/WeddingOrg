@@ -1,17 +1,9 @@
-﻿using AutoMapper;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WeddingOrg.Application.Cameramen.DTOs;
+﻿using MediatR;
 using WeddingOrg.Application.Exceptions;
 using WeddingOrg.Application.Interfaces;
-using WeddingOrg.Application.Photographers.DTOs;
-using WeddingOrg.Domain.Entities;
+using WeddingOrg.Application.Models.Cameramen.DTOs;
 
-namespace WeddingOrg.Application.Cameramen.Queries
+namespace WeddingOrg.Application.Models.Cameramen.Queries
 {
     public record GetCameramanByIdQuery(int Id) : IRequest<CameramanDto>;
 
@@ -20,10 +12,9 @@ namespace WeddingOrg.Application.Cameramen.Queries
         private readonly IWeddingsRepository _photographerRepository;
         private readonly IMediator _mediator;
 
-        public GetCameramanByIdQueryHandler(IWeddingsRepository photographerRepository, IMediator mediator)
+        public GetCameramanByIdQueryHandler(IWeddingsRepository photographerRepository)
         {
             _photographerRepository = photographerRepository;
-            _mediator = mediator;
         }
 
         public async Task<CameramanDto> Handle(GetCameramanByIdQuery request, CancellationToken cancellationToken)

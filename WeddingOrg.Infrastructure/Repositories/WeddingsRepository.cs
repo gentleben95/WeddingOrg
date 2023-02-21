@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WeddingOrg.Application.Cameramen.DTOs;
 using WeddingOrg.Application.DTOs;
 using WeddingOrg.Application.Exceptions;
 using WeddingOrg.Application.Interfaces;
+using WeddingOrg.Application.Models.Cameramen.DTOs;
+using WeddingOrg.Application.Models.Photographers.DTOs;
+using WeddingOrg.Application.Models.Restaurants.DTOs;
 using WeddingOrg.Domain.Entities;
 using WeddingOrg.Infrastructure.Data;
 
@@ -153,7 +155,7 @@ namespace WeddingOrg.Infrastructure.Repositories
             return wedding.Id;
         }
 
-        public async Task<int> CreatePhotographer(UpdatePhotographerDto dto)
+        public async Task<PhotographerDto> CreatePhotographer(PhotographerDto dto)
         {
             Photographer photographer = new()
             {
@@ -163,7 +165,7 @@ namespace WeddingOrg.Infrastructure.Repositories
             };
             await _dbContext.AddAsync(photographer);
             await _dbContext.SaveChangesAsync();
-            return photographer.Id;
+            return new PhotographerDto(photographer.Name, photographer.Facebook, photographer.Instagram);
         }
         public async Task<CameramanDto> CreateCameraman(CameramanDto dto)
         {
@@ -177,7 +179,7 @@ namespace WeddingOrg.Infrastructure.Repositories
             await _dbContext.SaveChangesAsync();
             return new CameramanDto (cameraman.Name, cameraman.Facebook, cameraman.Instagram);
         }
-        public async Task<int> CreateRestaurant(UpdateRestaurantDto dto)
+        public async Task<RestaurantDto> CreateRestaurant(RestaurantDto dto)
         {
             Restaurant restaurant = new()
             {
@@ -187,7 +189,7 @@ namespace WeddingOrg.Infrastructure.Repositories
             };
             await _dbContext.AddAsync(restaurant);
             await _dbContext.SaveChangesAsync();
-            return restaurant.Id;
+            return new RestaurantDto(restaurant.Name, restaurant.Facebook, restaurant.Instagram);
         }
 
         public async Task<int> ChangeWedding(int weddingId, UpdateWeddingDto dto, CancellationToken cancellationToken)
@@ -218,9 +220,10 @@ namespace WeddingOrg.Infrastructure.Repositories
             await _dbContext.SaveChangesAsync();
             return groom.Id;
         }
-        public async Task<int> ChangePhotographer(int photographerId, UpdatePhotographerDto dto, CancellationToken cancellationToken)
+        public async Task<int> ChangePhotographer(int photographerId, PhotographerDto dto, CancellationToken cancellationToken)
         {
             var photographer = await _dbContext.Photographers.SingleOrDefaultAsync(w => w.Id == photographerId, cancellationToken);
+            photographer.Name = dto.photographerName;
             photographer.Facebook = dto.photographerFacebook;
             photographer.Instagram = dto.photographerInstagram;
             await _dbContext.SaveChangesAsync();
@@ -229,14 +232,16 @@ namespace WeddingOrg.Infrastructure.Repositories
         public async Task<int> ChangeCameraman(int cameramanId, CameramanDto dto, CancellationToken cancellationToken)
         {
             var cameraman = await _dbContext.Cameramen.SingleOrDefaultAsync(w => w.Id == cameramanId, cancellationToken);
+            cameraman.Name = dto.cameramanName;
             cameraman.Facebook = dto.cameramanFacebook;
             cameraman.Instagram = dto.cameramanInstagram;
             await _dbContext.SaveChangesAsync();
             return cameraman.Id;
         }
-        public async Task<int> ChangeRestaurant(int restaurantId, UpdateRestaurantDto dto, CancellationToken cancellationToken)
+        public async Task<int> ChangeRestaurant(int restaurantId, RestaurantDto dto, CancellationToken cancellationToken)
         {
             var restaurant = await _dbContext.Restaurants.SingleOrDefaultAsync(w => w.Id == restaurantId, cancellationToken);
+            restaurant.Name = dto.restaurantName;
             restaurant.Facebook = dto.restaurantFacebook;
             restaurant.Instagram = dto.restaurantInstagram;
             await _dbContext.SaveChangesAsync();

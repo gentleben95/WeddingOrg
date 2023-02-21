@@ -24,7 +24,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Photographers\Commands\" />
+	  <Folder Include="Models\Weddings\Commands\" />
+	  <Folder Include="Models\Weddings\DTOs\" />
+	  <Folder Include="Models\Weddings\Queries\" />
 	</ItemGroup>
 
 </Project>

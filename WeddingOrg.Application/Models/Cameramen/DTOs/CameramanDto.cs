@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WeddingOrg.Application.Cameramen.DTOs
+namespace WeddingOrg.Application.Models.Cameramen.DTOs
 {
     public record CameramanDto(string cameramanName, string? cameramanFacebook, string? cameramanInstagram);
 }

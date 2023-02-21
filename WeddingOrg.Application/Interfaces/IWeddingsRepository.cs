@@ -1,5 +1,7 @@
-﻿using WeddingOrg.Application.Cameramen.DTOs;
-using WeddingOrg.Application.DTOs;
+﻿using WeddingOrg.Application.DTOs;
+using WeddingOrg.Application.Models.Cameramen.DTOs;
+using WeddingOrg.Application.Models.Photographers.DTOs;
+using WeddingOrg.Application.Models.Restaurants.DTOs;
 using WeddingOrg.Domain.Entities;
 
 namespace WeddingOrg.Application.Interfaces
@@ -23,17 +25,17 @@ namespace WeddingOrg.Application.Interfaces
         //Create 
         Task<int> CreateWeedingBrideGroom(UpdateWeddingBrideGroomDto dto);
         Task<int> CreateFullWeedingRepository(UpdateFullWeddingDto dto);
-        Task<int> CreatePhotographer(UpdatePhotographerDto dto);
+        Task<PhotographerDto> CreatePhotographer(PhotographerDto dto);
         Task<CameramanDto> CreateCameraman(CameramanDto dto);
-        Task<int> CreateRestaurant(UpdateRestaurantDto dto);
+        Task<RestaurantDto> CreateRestaurant(RestaurantDto dto);
 
         //Change
         Task<int> ChangeWedding(int weddingId, UpdateWeddingDto dto, CancellationToken cancellationToken);
         Task<int> ChangeBride(int brideId, UpdateBrideDto dto, CancellationToken cancellationToken);
         Task<int> ChangeGroom(int groomId, UpdateGroomDto dto, CancellationToken cancellationToken);
-        Task<int> ChangePhotographer(int photographerId, UpdatePhotographerDto dto, CancellationToken cancellationToken);
+        Task<int> ChangePhotographer(int photographerId, PhotographerDto dto, CancellationToken cancellationToken);
         Task<int> ChangeCameraman(int cameramanId, CameramanDto dto, CancellationToken cancellationToken);
-        Task<int> ChangeRestaurant(int restaurantId, UpdateRestaurantDto dto, CancellationToken cancellationToken);
+        Task<int> ChangeRestaurant(int restaurantId, RestaurantDto dto, CancellationToken cancellationToken);
 
         //DeleteById
         Task<int> DeleteWeddingById(int id, CancellationToken cancellationToken);
