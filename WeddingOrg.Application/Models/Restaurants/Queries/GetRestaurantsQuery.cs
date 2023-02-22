@@ -20,7 +20,7 @@ namespace WeddingOrg.Application.Models.Restaurants.Queries
 
             var restaurantDto = restaurant.Select(c =>
             {
-                return new RestaurantDto(c.Name, c.Facebook, c.Instagram);
+               return new RestaurantDto(c.Name, c.Facebook, c.Instagram);
             });
             return restaurantDto;
         }

@@ -24,12 +24,12 @@ namespace WeddingOrg.Application.DTOs
             string brideEmail, string brideInstagram,
             string groomName, string groomPhoneNumber,
             string groomEmail, string groomInstagram);
-    public record UpdateFullWeddingDto(string dateOfSigningTheContract, string dateOfTheWedding,
-            string brideName, string bridePhoneNumber,
-            string brideEmail, string brideInstagram,
-            string groomName, string groomPhoneNumber,
-            string groomEmail, string groomInstagram,
-            string photographerFacebook, string photographerInstagram,
-            string cameramanFacebook, string cameramanInstagram,
-            string restaurantFacebook, string restaurantInstagram);
+    //public record UpdateFullWeddingDto(string dateOfSigningTheContract, string dateOfTheWedding,
+    //        string brideName, string bridePhoneNumber,
+    //        string brideEmail, string brideInstagram,
+    //        string groomName, string groomPhoneNumber,
+    //        string groomEmail, string groomInstagram,
+    //        string photographerFacebook, string photographerInstagram,
+    //        string cameramanFacebook, string cameramanInstagram,
+    //        string restaurantFacebook, string restaurantInstagram);
 }

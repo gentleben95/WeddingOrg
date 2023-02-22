@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Collections;
-using Microsoft.AspNetCore.Server.IIS.Core;
-using WeddingOrg.Domain.Entities;
 using WeddingOrg.Application.DTOs;
 using WeddingOrg.Application.Interfaces;
-
+using MediatR;
+using WeddingOrg.Application.Models.Weddings.Queries;
+using WeddingOrg.Application.Models.Weddings.DTOs;
+using WeddingOrg.Application.Models.Weddings.Commands;
+using WeddingOrg.Application.Models.Photographers.Queries;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WeddingOrg.Controllers
@@ -16,50 +16,51 @@ namespace WeddingOrg.Controllers
     {
  
         private readonly IWeddingsRepository _weddingsRepository;
+        private readonly IMediator _mediator;
 
-        public WeddingsController(IWeddingsRepository weddingsRepository)
+        public WeddingsController(IWeddingsRepository weddingsRepository, IMediator mediator)
         {
             _weddingsRepository = weddingsRepository;
+            _mediator = mediator;
         }
         // GET: api/<WeddingsController>
         [HttpGet]
-        public async Task<IEnumerable<Wedding>> GetWeddings(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<WeddingDto>> GetWeddings(CancellationToken cancellationToken)
         {
-            var wedding = await _weddingsRepository.GetWeddings(cancellationToken);
-            return wedding;
+            return await _mediator.Send(new GetWeddingsQuery());
         }
 
         //GET api/<WeddingsController>/5 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Wedding>> GetWeddingsById(int id, CancellationToken cancellationToken)
+        public async Task<ActionResult<int>> GetWeddingsById(int id, CancellationToken cancellationToken)
         {
-            var wedding = await _weddingsRepository.GetWeddingById(id, cancellationToken);
+            var wedding = await _mediator.Send(new GetWeddingByIdQuery(id));
             if (wedding == default) { return BadRequest($"Nie ma wesela z ID o numerze [{id}]"); }
             return Ok(wedding);
         }              
         [HttpPost]
-        public async Task<int> CreateWedding ([FromBody]UpdateWeddingBrideGroomDto dto)
+        public async Task<int> CreateWedding ([FromBody]WeddingDto dto)
         {
-            var id = await _weddingsRepository.CreateWeedingBrideGroom(dto);
-            return id;
+            return await _mediator.Send(new CreateWeddingCommand(dto));
 
         }
         [HttpPut("{id}")]
-        public void ChangeWedding(int id, [FromBody] UpdateWeddingDto dto, CancellationToken cancellationToken)
+        public async Task<int> ChangeWedding(int id, [FromBody] WeddingDto dto, CancellationToken cancellationToken)
         {
-            var wedding = _weddingsRepository.ChangeWedding(id, dto, cancellationToken);
+            return await _mediator.Send(new ChangeWeddingCommand(id, dto));
         }
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteWeddingById(int id, CancellationToken cancellationToken)
+        public async Task<ActionResult<int>> DeleteWeddingById(int id, CancellationToken cancellationToken)
         {
-            var wedding = await _weddingsRepository.DeleteWeddingById(id, cancellationToken);
+            var wedding = await _mediator.Send(new DeleteWeddingCommand(id));
             if (wedding == default) { return BadRequest($"Nie ma wesela z ID o numerze [{id}]"); }
             return Ok();
         }
-        //public async Task<IActionResult> CreateFullWeddingController([FromBody] UpdateFullWeddingDto dto)
+        //[HttpPut("{id}")]
+        //public async Task<int> AddPhotographerToWedding(int weddingId, int photographerId)
         //{
-        //    await _weddingsRepository.CreateFullWeedingRepository(dto);
-        //    return NoContent();
+        //    var photographer = _mediator.Send(new GetPhotographerByIdQuery(photographerId));
+        //    var photographer
         //}
     }
 }

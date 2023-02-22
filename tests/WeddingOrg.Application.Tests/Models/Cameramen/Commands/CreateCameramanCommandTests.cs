@@ -45,7 +45,7 @@ public class CreateCameramanCommandValidatorTests
     public void GivenCameramanNameWithMoreThan50Characters_WhenValidatingCreateCameramanCommand_ShouldHaveValidationError()
     {
         // Arrange
-        var dto = new CameramanDto("123456789012345678901234567890123456789012345678901", "https://www.facebook.com/test", "https://www.instagram.com/test");
+        var dto = new CameramanDto(new string('d', 61), "https://www.facebook.com/test", "https://www.instagram.com/test"); ;
 
         // Act
         var result = _validator.Validate(new CreateCameramanCommand(dto));

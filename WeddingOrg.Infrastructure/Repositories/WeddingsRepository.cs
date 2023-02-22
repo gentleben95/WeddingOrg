@@ -5,6 +5,7 @@ using WeddingOrg.Application.Interfaces;
 using WeddingOrg.Application.Models.Cameramen.DTOs;
 using WeddingOrg.Application.Models.Photographers.DTOs;
 using WeddingOrg.Application.Models.Restaurants.DTOs;
+using WeddingOrg.Application.Models.Weddings.DTOs;
 using WeddingOrg.Domain.Entities;
 using WeddingOrg.Infrastructure.Data;
 
@@ -100,7 +101,7 @@ namespace WeddingOrg.Infrastructure.Repositories
             }
             return restaurant;
         }
-        public async Task<int> CreateWeedingBrideGroom(UpdateWeddingBrideGroomDto dto)
+        public async Task<int> CreateWeddingBrideGroom(WeddingDto dto)
         {
             Bride bride = new Bride()
             {
@@ -126,34 +127,7 @@ namespace WeddingOrg.Infrastructure.Repositories
             await _dbContext.Weddings.AddAsync(wedding);
             await _dbContext.SaveChangesAsync();
             return wedding.Id;
-        }
-        public async Task<int> CreateFullWeedingRepository(UpdateFullWeddingDto dto)
-        {
-            Bride bride = new Bride()
-            {
-                Name = dto.brideName,
-                PhoneNumber = dto.bridePhoneNumber,
-                Email = dto.brideEmail,
-                Instagram = dto.brideInstagram
-            };
-            Groom groom = new Groom()
-            {
-                Name = dto.groomName,
-                PhoneNumber = dto.groomPhoneNumber,
-                Email = dto.groomEmail,
-                Instagram = dto.groomInstagram
-            };
-            Wedding wedding = new Wedding()
-            {
-                DateOfSigningTheContract = dto.dateOfSigningTheContract,
-                DateOfTheWedding = dto.dateOfTheWedding,
-                Bride = bride,
-                Groom = groom,
-            };
-            await _dbContext.Weddings.AddAsync(wedding);
-            await _dbContext.SaveChangesAsync();
-            return wedding.Id;
-        }
+        }       
 
         public async Task<PhotographerDto> CreatePhotographer(PhotographerDto dto)
         {
@@ -192,7 +166,7 @@ namespace WeddingOrg.Infrastructure.Repositories
             return new RestaurantDto(restaurant.Name, restaurant.Facebook, restaurant.Instagram);
         }
 
-        public async Task<int> ChangeWedding(int weddingId, UpdateWeddingDto dto, CancellationToken cancellationToken)
+        public async Task<int> ChangeWedding(int weddingId, WeddingDto dto, CancellationToken cancellationToken)
         {
             var wedding = await _dbContext.Weddings.SingleOrDefaultAsync(w => w.Id == weddingId, cancellationToken);
             wedding.DateOfSigningTheContract = dto.dateOfSigningTheContract;

@@ -2,6 +2,7 @@
 @inject WeddingOrg.Controllers.CameramenController CameramenController
 @using WeddingOrg.DTOs
 @inject NavigationManager NavigationManager
+@inject IHttpClientFactory _clientFactory
 
 <PageTitle>Dodaj kamerzystę</PageTitle>
 <RadzenTemplateForm TItem="FilledInfo" Data=@fbInsta Submit=@OnSubmit>
@@ -67,6 +68,8 @@
     protected override async Task OnInitializedAsync()
     {
         Cameramen = (await CameramenController.GetCameramen()).ToList();
+        var request = new HttpRequestMessage(HttpMethod.Get,
+        "");
     }
     private List<WeddingOrg.Models.Cameraman> Cameramen = new();
 

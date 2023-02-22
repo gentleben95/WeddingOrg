@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using WeddingOrg.Application.Models.Photographers.Commands;
 using WeddingOrg.Application.Models.Photographers.DTOs;
-using Xunit;
 
 namespace WeddingOrg.Application.Tests.Models.Photographers.Commands
 {

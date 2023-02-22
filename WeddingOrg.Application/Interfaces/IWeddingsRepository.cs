@@ -2,6 +2,7 @@
 using WeddingOrg.Application.Models.Cameramen.DTOs;
 using WeddingOrg.Application.Models.Photographers.DTOs;
 using WeddingOrg.Application.Models.Restaurants.DTOs;
+using WeddingOrg.Application.Models.Weddings.DTOs;
 using WeddingOrg.Domain.Entities;
 
 namespace WeddingOrg.Application.Interfaces
@@ -23,14 +24,13 @@ namespace WeddingOrg.Application.Interfaces
         Task<Restaurant> GetRestaurantById(int id, CancellationToken cancellationToken);
 
         //Create 
-        Task<int> CreateWeedingBrideGroom(UpdateWeddingBrideGroomDto dto);
-        Task<int> CreateFullWeedingRepository(UpdateFullWeddingDto dto);
+        Task<int> CreateWeddingBrideGroom(WeddingDto dto);
         Task<PhotographerDto> CreatePhotographer(PhotographerDto dto);
         Task<CameramanDto> CreateCameraman(CameramanDto dto);
         Task<RestaurantDto> CreateRestaurant(RestaurantDto dto);
 
         //Change
-        Task<int> ChangeWedding(int weddingId, UpdateWeddingDto dto, CancellationToken cancellationToken);
+        Task<int> ChangeWedding(int weddingId, WeddingDto dto, CancellationToken cancellationToken);
         Task<int> ChangeBride(int brideId, UpdateBrideDto dto, CancellationToken cancellationToken);
         Task<int> ChangeGroom(int groomId, UpdateGroomDto dto, CancellationToken cancellationToken);
         Task<int> ChangePhotographer(int photographerId, PhotographerDto dto, CancellationToken cancellationToken);

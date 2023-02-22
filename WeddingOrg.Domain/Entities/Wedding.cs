@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace WeddingOrg.Domain.Entities
+﻿namespace WeddingOrg.Domain.Entities
 {
     public class Wedding : Entity
     {
