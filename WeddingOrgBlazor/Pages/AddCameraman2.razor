@@ -1,0 +1,43 @@
+﻿@page "/cameramen"
+@using Newtonsoft.Json;
+@using WeddingOrg.Application.Models.Cameramen.DTOs;
+
+@inject HttpClient httpClient
+
+@if (cameramen == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cameraman in cameramen)
+            {
+                <tr>
+                    <td>@cameraman.cameramanName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<CameramanDto> cameramen;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await httpClient.GetAsync("/api/Cameramen");
+        if (response.IsSuccessStatusCode)
+        {
+            var content = await response.Content.ReadAsStringAsync();
+            cameramen = JsonConvert.DeserializeObject<List<CameramanDto>>(content);
+        }
+    }
+}

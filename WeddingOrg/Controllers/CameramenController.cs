@@ -19,16 +19,17 @@ namespace WeddingOrg.Controllers
         }
         // GET: api/<WeddingsController>
         [HttpGet]
-        public async Task<IEnumerable<CameramanDto>> GetCameramen(CancellationToken cancellationToken)
+        public async Task<JsonResult> GetCameramen(CancellationToken cancellationToken)
         {
-            return await _mediator.Send(new GetCameramenQuery());
+            var cameramen = await _mediator.Send(new GetCameramenQuery());
+            return new JsonResult(cameramen);
         }
 
-        //GET api/<WeddingsController>/5 
         [HttpGet("{id}")]
-        public async Task<CameramanDto> GetCameramanById(int id, CancellationToken cancellationToken)
+        public async Task<JsonResult> GetCameramanById(int id, CancellationToken cancellationToken)
         {
-            return await _mediator.Send(new GetCameramanByIdQuery(id));
+            var cameraman = await _mediator.Send(new GetCameramanByIdQuery(id));
+            return new JsonResult(cameraman);
         }
         [HttpPost]
         public async Task<CameramanDto> CreateCameraman([FromBody] CameramanDto dto)

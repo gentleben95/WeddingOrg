@@ -1,6 +1,6 @@
-﻿@page "/addcameraman"
-@inject WeddingOrg.Controllers.CameramenController CameramenController
-@using WeddingOrg.DTOs
+﻿@*@page "/addcameraman"
+@using System.Net.Http
+@using WeddingOrg.Application.Models.Cameramen.DTOs;
 @inject NavigationManager NavigationManager
 @inject IHttpClientFactory _clientFactory
 
@@ -65,13 +65,19 @@
 </table>
 @code {
 
+    private readonly HttpClient _httpClient;
+
+    public YourComponent(HttpClient httpClient)
+    {
+        _httpClient = httpClient;
+    }
+
     protected override async Task OnInitializedAsync()
     {
-        Cameramen = (await CameramenController.GetCameramen()).ToList();
-        var request = new HttpRequestMessage(HttpMethod.Get,
-        "");
+        Cameramen = await _httpClient.GetFromJsonAsync<List<WeddingOrg.Models.Cameraman>>("https://weddinggroup2.azurewebsites.net/api/cameramen");
+
     }
-    private List<WeddingOrg.Models.Cameraman> Cameramen = new();
+    //private List<WeddingOrg.Models.Cameraman> Cameramen = new();
 
     public class FilledInfo
     {
@@ -82,7 +88,7 @@
     FilledInfo fbInsta = new FilledInfo();
     async void OnSubmit(FilledInfo arg)
     {
-        var updateCameramanDto = new UpdateCameramanDto(fbInsta.Name,fbInsta.Facebook, fbInsta.Instagram);
+        var updateCameramanDto = new CameramanDto(fbInsta.Name,fbInsta.Facebook, fbInsta.Instagram);
         await CameramenController.CreateCameraman(updateCameramanDto);
         Cameramen = (await CameramenController.GetCameramen()).ToList();
         StateHasChanged();
@@ -121,4 +127,4 @@
         StateHasChanged();
     }
 
-}
+}*@

@@ -1,4 +1,4 @@
-﻿@page "/addrestaurant"
+﻿@*@page "/addrestaurant"
 @inject WeddingOrg.Controllers.RestaurantsController RestaurantsController
 @using WeddingOrg.DTOs
 @inject NavigationManager NavigationManager
@@ -115,4 +115,4 @@
         Restaurants = (await RestaurantsController.GetRestaurants()).ToList();
         StateHasChanged();
     }
-}
+}*@

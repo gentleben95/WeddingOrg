@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.JSInterop" Version="7.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="Radzen.Blazor" Version="4.6.4" />
     <PackageReference Include="Radzen.Design" Version="0.0.2" />
     <PackageReference Include="System.Net.Http.Json" Version="7.0.0" />
