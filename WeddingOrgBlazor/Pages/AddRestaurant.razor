@@ -1,6 +1,7 @@
 ﻿@page "/addrestaurant"
 @inject WeddingOrg.Controllers.RestaurantsController RestaurantsController
-@using WeddingOrg.DTOs
+@using WeddingOrg.Application.Models.Restaurants
+@using WeddingOrg.Application.Models.Restaurants.DTOs;
 @inject NavigationManager NavigationManager
 
 <PageTitle>Dodaj restaurację</PageTitle>
@@ -64,9 +65,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Restaurants = (await RestaurantsController.GetRestaurants()).ToList();
+        Restaurants = (await RestaurantsController.GetRestaurants(default)).ToList();
     }
-    private List<WeddingOrg.Models.Restaurant> Restaurants = new();
+    private List<WeddingOrg.Domain.Entities.Restaurant> Restaurants = new();
 
     public class FilledInfo
     {
@@ -78,14 +79,13 @@
 
     async void OnSubmit(FilledInfo arg)
     {
-        var updateRestaurantsDto = new UpdateRestaurantDto(fbInsta.Name, fbInsta.Facebook, fbInsta.Instagram);
+        var updateRestaurantsDto = new RestaurantDto(fbInsta.Name, fbInsta.Facebook, fbInsta.Instagram);
         await RestaurantsController.CreateRestaurant(updateRestaurantsDto);
-        Restaurants = (await RestaurantsController.GetRestaurants()).ToList();
+        Restaurants = (await RestaurantsController.GetRestaurants(default)).ToList();
         StateHasChanged();
-        NavigationManager.NavigateTo("/addrestaurant", true);
     }
     public string Filter { get; set; }
-    public bool IsVisible(WeddingOrg.Models.Restaurant restaurant1)
+    public bool IsVisible(WeddingOrg.Domain.Entities.Restaurant restaurant1)
     {
         if (string.IsNullOrEmpty(Filter))
             return true;
@@ -112,7 +112,7 @@
         {
             await RestaurantsController.DeleteRestaurantById(restaurant.Id, default);
         }
-        Restaurants = (await RestaurantsController.GetRestaurants()).ToList();
+        Restaurants = (await RestaurantsController.GetRestaurants(default)).ToList();
         StateHasChanged();
     }
 }

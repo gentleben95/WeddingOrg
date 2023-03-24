@@ -1,13 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using WeddingOrg.Data;
-using WeddingOrg.Models;
-using WeddingOrg.Repositories;
-using System.Collections;
-using Microsoft.AspNetCore.Server.IIS.Core;
-using WeddingOrg.DTOs;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using MediatR;
+using WeddingOrg.Application.Models.Photographers.Queries;
+using WeddingOrg.Application.Models.Photographers.DTOs;
+using WeddingOrg.Application.Models.Photographers.Commands;
+using WeddingOrg.Domain.Entities;
 
 namespace WeddingOrg.Controllers
 {
@@ -15,52 +11,43 @@ namespace WeddingOrg.Controllers
     [ApiController]
     public class PhotographersController : ControllerBase
     {
+        private readonly IMediator _mediator;
 
-        private readonly IWeddingsRepository _weddingsRepository;
-        public PhotographersController(IWeddingsRepository weddingsRepository)
+        public PhotographersController(IMediator mediator)
         {
-            _weddingsRepository = weddingsRepository;
+            _mediator = mediator;
         }
         // GET: api/<WeddingsController>
         [HttpGet]
-        public async Task<IEnumerable<Photographer>> GetPhotographers(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Photographer>> GetPhotographers(CancellationToken cancellationToken)
         {
-            var photographer = await _weddingsRepository.GetPhotographers(cancellationToken);
-            return photographer;
+            return await _mediator.Send(new GetPhotographersQuery());
         }
 
         //GET api/<WeddingsController>/5 
         [HttpGet("{id}")]
         public async Task<ActionResult<int>> GetPhotographerById(int id, CancellationToken cancellationToken)
         {
-            var photographer = await _weddingsRepository.GetPhotographerById(id, cancellationToken);
+            var photographer = await _mediator.Send(new GetPhotographerByIdQuery(id));
             if (photographer == default) { return BadRequest($"Nie ma fotografa z ID o numerze [{id}]"); }
             return Ok(photographer + $"Znaleziono fotografa z ID o numerze [{id}]");
         }
         [HttpPost]
-        public async Task<IActionResult> CreatePhotographer([FromBody] UpdatePhotographerDto dto)
+        public async Task<IActionResult> CreatePhotographer([FromBody] PhotographerDto dto)
         {
-            await _weddingsRepository.CreatePhotographer(dto);
+            await _mediator.Send(new CreatePhotographerCommand(dto));
             return NoContent();
         }
         [HttpPut("{id}")]
-        public void ChangePhotographer(int id, [FromBody] UpdatePhotographerDto dto, CancellationToken cancellationToken)
+        public async Task<int> ChangePhotographer(int id, [FromBody] PhotographerDto dto)
         {
-            var photographer = _weddingsRepository.ChangePhotographer(id, dto, cancellationToken);
+            return await _mediator.Send(new ChangePhotographerCommand(id, dto));
         }
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePhotographerById(int id, CancellationToken cancellationToken)
+        public async Task<ActionResult<int>> DeletePhotographerById(int id, CancellationToken cancellationToken)
         {
-            var photographer = await _weddingsRepository.DeletePhotographerById(id, cancellationToken);
+            var photographer = await _mediator.Send(new DeletePhotographerCommand(id));
             if (photographer == default) { return BadRequest($"Nie ma fotografa z ID o numerze [{id}]"); }
-            return Ok();
-        }
-        [HttpPut("{weddingId}/concatenatephoto")]
-        public async Task<IActionResult> AddPhotographerToWedding(int weddingId, [FromBody] int photographerId)
-        {
-            var photographer = await _weddingsRepository.AddPhotographerToWedding(weddingId, photographerId);
-            if (photographer == default) { return NotFound($"Nie ma fotografa z ID o numerze [{photographerId}]"); }
-            if (weddingId == default) { return NotFound($"Nie ma wesela z ID o numerze [{weddingId}]"); }
             return Ok();
         }
     }

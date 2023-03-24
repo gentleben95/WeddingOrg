@@ -1,11 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WeddingOrg.Data;
-using WeddingOrg.Models;
-using WeddingOrg.Repositories;
 using System.Collections;
 using Microsoft.AspNetCore.Server.IIS.Core;
-using WeddingOrg.DTOs;
+using WeddingOrg.Domain.Entities;
+using WeddingOrg.Application.DTOs;
+using WeddingOrg.Application.Interfaces;
+using WeddingOrg.Application.Models.Photographers.DTOs;
+using WeddingOrg.Application.Models.Restaurants.DTOs;
+using MediatR;
+using WeddingOrg.Application.Models.Restaurants.Queries;
+using WeddingOrg.Application.Models.Restaurants.Commands;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,50 +21,42 @@ namespace WeddingOrg.Controllers
     {
  
         private readonly IWeddingsRepository _weddingsRepository;
+        private readonly IMediator _mediator;
 
-        public RestaurantsController(IWeddingsRepository weddingsRepository)
+        public RestaurantsController(IWeddingsRepository weddingsRepository, IMediator mediator)
         {
             _weddingsRepository = weddingsRepository;
+            _mediator = mediator;
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Restaurant>> GetRestaurants(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Restaurant>> GetRestaurants(CancellationToken cancellationToken)
         {
-            var restaurant = await _weddingsRepository.GetRestaurants(cancellationToken);
-            return restaurant;
+            return await _mediator.Send(new GetRestaurantsQuery());
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<int>> GetRestaurantsById(int id, CancellationToken cancellationToken)
         {
-            var wedding = await _weddingsRepository.GetRestaurantById(id, cancellationToken);
+            var wedding = await _mediator.Send(new GetRestaurantByIdQuery(id));
             if (wedding == default) { return BadRequest($"Nie ma restauracji z ID o numerze [{id}]"); }
             return Ok(wedding + $"Znaleziono restaurację z ID o numerze [{id}]");
         }              
         [HttpPost]
-        public async Task<IActionResult> CreateRestaurant ([FromBody]UpdateRestaurantDto dto)
+        public async Task<RestaurantDto> CreateRestaurant ([FromBody]RestaurantDto dto)
         {
-            await _weddingsRepository.CreateRestaurant(dto);
-            return NoContent();
+           return await _mediator.Send(new CreateRestaurantCommand(dto));
         }
         [HttpPut("{id}")]
-        public void ChangeRestaurant(int id, [FromBody] UpdateRestaurantDto dto, CancellationToken cancellationToken)
+        public async Task<int> ChangeRestaurant(int id, [FromBody] RestaurantDto dto, CancellationToken cancellationToken)
         {
-            var wedding = _weddingsRepository.ChangeRestaurant(id, dto, cancellationToken);
+            return await _mediator.Send(new ChangeRestaurantCommand(id, dto));
         }
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRestaurantById(int id, CancellationToken cancellationToken)
+        public async Task<ActionResult<int>> DeleteRestaurantById(int id, CancellationToken cancellationToken)
         {
-            var restaurant = await _weddingsRepository.DeleteRestaurantById(id, cancellationToken);
+            var restaurant = await _mediator.Send(new DeleteRestaurantCommand(id));
             if (restaurant == default) { return BadRequest($"Nie ma restauracji z ID o numerze [{id}]"); }
-            return Ok();
-        }
-        [HttpPut("{weddingId}/concatenaterestaurant")]
-        public async Task<IActionResult> AddRestaurantToWedding(int weddingId, [FromBody] int restaurantId)
-        {
-            var restaurant = await _weddingsRepository.AddRestaurantToWedding(weddingId, restaurantId);
-            if (restaurant == default) { return NotFound($"Nie ma restauracji z ID o numerze [{restaurantId}]"); }
-            if (weddingId == default) { return NotFound($"Nie ma wesela z ID o numerze [{weddingId}]"); }
             return Ok();
         }
     }

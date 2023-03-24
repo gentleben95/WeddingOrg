@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -10,10 +10,11 @@
     <PackageReference Include="Microsoft.JSInterop" Version="7.0.2" />
     <PackageReference Include="Radzen.Blazor" Version="4.6.4" />
     <PackageReference Include="Radzen.Design" Version="0.0.2" />
+    <PackageReference Include="System.Net.Http.Json" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WeddingOrg\WeddingOrg.csproj" />
+    <ProjectReference Include="..\WeddingOrg\WeddingOrg.WebApi.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using WeddingOrg.Data;
-using WeddingOrg.Models;
-using WeddingOrg.Repositories;
-using System.Collections;
-using Microsoft.AspNetCore.Server.IIS.Core;
-using WeddingOrg.DTOs;
-using WeddingOrg.Views;
-
+using WeddingOrg.Application.DTOs;
+using WeddingOrg.Application.Interfaces;
+using MediatR;
+using WeddingOrg.Application.Models.Weddings.Queries;
+using WeddingOrg.Application.Models.Weddings.DTOs;
+using WeddingOrg.Application.Models.Weddings.Commands;
+using WeddingOrg.Application.Models.Photographers.Queries;
+using WeddingOrg.Domain.Entities;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WeddingOrg.Controllers
@@ -18,50 +17,61 @@ namespace WeddingOrg.Controllers
     {
  
         private readonly IWeddingsRepository _weddingsRepository;
+        private readonly IMediator _mediator;
 
-        public WeddingsController(IWeddingsRepository weddingsRepository)
+        public WeddingsController(IWeddingsRepository weddingsRepository, IMediator mediator)
         {
             _weddingsRepository = weddingsRepository;
+            _mediator = mediator;
         }
         // GET: api/<WeddingsController>
         [HttpGet]
-        public async Task<IEnumerable<Wedding>> GetWeddings(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Wedding>> GetWeddings(CancellationToken cancellationToken)
         {
-            var wedding = await _weddingsRepository.GetWeddings(cancellationToken);
-            return wedding;
+            return await _mediator.Send(new GetWeddingsQuery());
         }
 
         //GET api/<WeddingsController>/5 
         [HttpGet("{id}")]
-        public async Task<ActionResult<FullWeddingView>> GetWeddingsById(int id, CancellationToken cancellationToken)
+        public async Task<ActionResult<int>> GetWeddingsById(int id, CancellationToken cancellationToken)
         {
-            var wedding = await _weddingsRepository.GetWeddingById(id, cancellationToken);
+            var wedding = await _mediator.Send(new GetWeddingByIdQuery(id));
             if (wedding == default) { return BadRequest($"Nie ma wesela z ID o numerze [{id}]"); }
             return Ok(wedding);
-        }              
+        }
         [HttpPost]
-        public async Task<int> CreateWedding ([FromBody]UpdateWeddingBrideGroomDto dto)
+        public async Task<int> CreateWedding([FromBody] WeddingDto dto)
         {
-            var id = await _weddingsRepository.CreateWeedingBrideGroom(dto);
-            return id;
-
+            return await _mediator.Send(new CreateWeddingCommand(dto));
+            
         }
         [HttpPut("{id}")]
-        public void ChangeWedding(int id, [FromBody] UpdateWeddingDto dto, CancellationToken cancellationToken)
+        public async Task<int> ChangeWedding(int id, [FromBody] WeddingDto dto, CancellationToken cancellationToken)
         {
-            var wedding = _weddingsRepository.ChangeWedding(id, dto, cancellationToken);
+            return await _mediator.Send(new ChangeWeddingCommand(id, dto));
         }
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteWeddingById(int id, CancellationToken cancellationToken)
+        public async Task<ActionResult<int>> DeleteWeddingById(int id, CancellationToken cancellationToken)
         {
-            var wedding = await _weddingsRepository.DeleteWeddingById(id, cancellationToken);
+            var wedding = await _mediator.Send(new DeleteWeddingCommand(id));
             if (wedding == default) { return BadRequest($"Nie ma wesela z ID o numerze [{id}]"); }
             return Ok();
         }
-        //public async Task<IActionResult> CreateFullWeddingController([FromBody] UpdateFullWeddingDto dto)
-        //{
-        //    await _weddingsRepository.CreateFullWeedingRepository(dto);
-        //    return NoContent();
-        //}
+        [HttpPut("{id}")]
+        public async Task<int> AddPhotographerToWedding(int photographerId, int weddingId)
+        {
+            return await _mediator.Send(new AddPhotographerToWeddingCommand(photographerId, weddingId));
+
+        }
+        [HttpPut("{id}")]
+        public async Task<int> AddCameramanToWedding(int cameramanId, int weddingId)
+        {
+            return await _mediator.Send(new AddCameramanToWeddingCommand(cameramanId, weddingId));
+        }
+        [HttpPut("{id}")]
+        public async Task<int> AddRestaurantToWedding(int restaurantId, int weddingId)
+        {
+            return await _mediator.Send(new AddRestaurantToWeddingCommand(restaurantId, weddingId));
+        }
     }
 }
