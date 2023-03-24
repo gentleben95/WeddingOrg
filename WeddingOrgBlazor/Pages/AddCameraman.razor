@@ -1,6 +1,6 @@
 ﻿@page "/addcameraman"
 @inject WeddingOrg.Controllers.CameramenController CameramenController
-@using WeddingOrg.DTOs
+@using WeddingOrg.Application.Models.Cameramen.DTOs
 @inject NavigationManager NavigationManager
 @inject IHttpClientFactory _clientFactory
 
@@ -67,11 +67,10 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Cameramen = (await CameramenController.GetCameramen()).ToList();
-        var request = new HttpRequestMessage(HttpMethod.Get,
-        "");
+        var cameramenDtos = await CameramenController.GetCameramen(CancellationToken.None);
+        Cameramen = cameramenDtos.Select(dto => new WeddingOrg.Domain.Entities.Cameraman(dto.cameramanName, dto.cameramanFacebook, dto.cameramanInstagram)).ToList();
     }
-    private List<WeddingOrg.Models.Cameraman> Cameramen = new();
+    private List<WeddingOrg.Domain.Entities.Cameraman> Cameramen = new();
 
     public class FilledInfo
     {
@@ -82,15 +81,17 @@
     FilledInfo fbInsta = new FilledInfo();
     async void OnSubmit(FilledInfo arg)
     {
-        var updateCameramanDto = new UpdateCameramanDto(fbInsta.Name,fbInsta.Facebook, fbInsta.Instagram);
+        var updateCameramanDto = new CameramanDto(fbInsta.Name,fbInsta.Facebook, fbInsta.Instagram);
         await CameramenController.CreateCameraman(updateCameramanDto);
-        Cameramen = (await CameramenController.GetCameramen()).ToList();
+        Cameramen = (await CameramenController.GetCameramen(CancellationToken.None))
+                .Select(dto => new WeddingOrg.Domain.Entities.Cameraman(dto.cameramanName, dto.cameramanFacebook, dto.cameramanInstagram))
+                .ToList();
         StateHasChanged();
         NavigationManager.NavigateTo("/addcameraman", true);
     }
 
     public string Filter { get; set; }
-    public bool IsVisible(WeddingOrg.Models.Cameraman cameraman1)
+    public bool IsVisible(WeddingOrg.Domain.Entities.Cameraman cameraman1)
     {
         if (string.IsNullOrEmpty(Filter))
             return true;
@@ -117,7 +118,9 @@
         {
             await CameramenController.DeleteCameramanById(restaurant.Id, default);
         }
-        Cameramen = (await CameramenController.GetCameramen()).ToList();
+        Cameramen = (await CameramenController.GetCameramen(CancellationToken.None))
+                .Select(dto => new WeddingOrg.Domain.Entities.Cameraman(dto.cameramanName, dto.cameramanFacebook, dto.cameramanInstagram))
+                .ToList();
         StateHasChanged();
     }
 

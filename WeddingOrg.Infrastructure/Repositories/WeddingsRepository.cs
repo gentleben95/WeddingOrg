@@ -143,16 +143,12 @@ namespace WeddingOrg.Infrastructure.Repositories
         }
         public async Task<CameramanDto> CreateCameraman(CameramanDto dto)
         {
-            Cameraman cameraman = new()
-            {
-                Name = dto.cameramanName,
-                Facebook = dto.cameramanFacebook,
-                Instagram = dto.cameramanInstagram                
-            };
+            Cameraman cameraman = new(dto.cameramanName, dto.cameramanFacebook, dto.cameramanInstagram);
             await _dbContext.AddAsync(cameraman);
             await _dbContext.SaveChangesAsync();
-            return new CameramanDto (cameraman.Name, cameraman.Facebook, cameraman.Instagram);
+            return new CameramanDto(cameraman.Name, cameraman.Facebook, cameraman.Instagram);
         }
+
         public async Task<RestaurantDto> CreateRestaurant(RestaurantDto dto)
         {
             Restaurant restaurant = new()

@@ -1,4 +1,4 @@
-﻿@page "/addphotographer"
+﻿@*@page "/addphotographer"
 @inject WeddingOrg.Controllers.PhotographersController PhotographersController
 @using WeddingOrg.DTOs
 @inject NavigationManager NavigationManager
@@ -119,4 +119,4 @@
         Photographers = (await PhotographersController.GetPhotographers()).ToList();
         StateHasChanged();
     }
-}
+}*@
