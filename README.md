@@ -12,7 +12,6 @@ You can see the finished project on: https://weddinggroup2.azurewebsites.net/
 * HTML
 * Clean Architecture
 * WebApi
-* 
 * EF Core
 * CQRS
 * MediatR
