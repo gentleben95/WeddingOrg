@@ -1,4 +1,4 @@
-﻿@*@page "/weddings"
+﻿@page "/"
 @inject WeddingOrg.Controllers.WeddingsController WeddingController
 
 <PageTitle>Baza wesel</PageTitle>
@@ -80,14 +80,14 @@ else
 @code {
     protected override async Task OnInitializedAsync()
     {
-        Weddings1 = (await WeddingController.GetWeddings()).ToList();
+        Weddings1 = (await WeddingController.GetWeddings(default)).ToList();
 
     }
-    private List<WeddingOrg.Models.Wedding> Weddings1 = new();
+    private List<WeddingOrg.Domain.Entities.Wedding> Weddings1 = new();
 
     public string Filter { get; set; }
     public bool IsVisible(
-        WeddingOrg.Models.Wedding wedding1)
+        WeddingOrg.Domain.Entities.Wedding wedding1)
     {
         if (string.IsNullOrEmpty(Filter))
             return true;
@@ -113,4 +113,3 @@ else
         return false;
     }
 }
-*@

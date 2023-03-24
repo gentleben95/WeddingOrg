@@ -54,7 +54,8 @@ namespace WeddingOrg.Application.Models.Weddings.Commands
         }
         public async Task<int> Handle(CreateWeddingCommand request, CancellationToken cancellationToken)
         {
-            return await _weddingsRepository.CreateWeddingBrideGroom(request.WeddingDto);
+            var wedding = await _weddingsRepository.CreateWeddingBrideGroom(request.WeddingDto);
+            return wedding;
         }
     }
 }

@@ -12,10 +12,9 @@
         <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Facebook kamerzysty</RadzenText>
         <RadzenTextBox Placeholder="facebook.com" Name="Facebook" @bind-Value=@fbInsta.Facebook Style="width: 100%;" />
         <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3" Class="mt-4">Instagram kamerzysty</RadzenText>
-        <RadzenTextBox Placeholder="instagram.com" Name="Instagram" @bind-Value=@fbInsta.Instagram  Style="width: 100%;" />
+        <RadzenTextBox Placeholder="instagram.com" Name="Instagram" @bind-Value=@fbInsta.Instagram Style="width: 100%;" />
         <div class="row">
-            <div class="col-md-12 d-flex align-items-end justify-content-left mt-4">               
-                
+            <div class="col-md-12 d-flex align-items-end justify-content-left mt-4">
             </div>
             <RadzenButton ButtonType="ButtonType.Submit" Text="dodaj" />
         </div>
@@ -59,7 +58,7 @@
                 <td>
                     @cameraman.Instagram
                 </td>
-             </tr>
+            </tr>
         }
     </tbody>
 </table>
@@ -67,8 +66,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var cameramenDtos = await CameramenController.GetCameramen(CancellationToken.None);
-        Cameramen = cameramenDtos.Select(dto => new WeddingOrg.Domain.Entities.Cameraman(dto.cameramanName, dto.cameramanFacebook, dto.cameramanInstagram)).ToList();
+        Cameramen = (await CameramenController.GetCameramen(default)).ToList();
     }
     private List<WeddingOrg.Domain.Entities.Cameraman> Cameramen = new();
 
@@ -81,12 +79,8 @@
     FilledInfo fbInsta = new FilledInfo();
     async void OnSubmit(FilledInfo arg)
     {
-        var updateCameramanDto = new CameramanDto(fbInsta.Name,fbInsta.Facebook, fbInsta.Instagram);
+        var updateCameramanDto = new CameramanDto(fbInsta.Name, fbInsta.Facebook, fbInsta.Instagram);
         await CameramenController.CreateCameraman(updateCameramanDto);
-        Cameramen = (await CameramenController.GetCameramen(CancellationToken.None))
-                .Select(dto => new WeddingOrg.Domain.Entities.Cameraman(dto.cameramanName, dto.cameramanFacebook, dto.cameramanInstagram))
-                .ToList();
-        StateHasChanged();
         NavigationManager.NavigateTo("/addcameraman", true);
     }
 
@@ -118,10 +112,7 @@
         {
             await CameramenController.DeleteCameramanById(restaurant.Id, default);
         }
-        Cameramen = (await CameramenController.GetCameramen(CancellationToken.None))
-                .Select(dto => new WeddingOrg.Domain.Entities.Cameraman(dto.cameramanName, dto.cameramanFacebook, dto.cameramanInstagram))
-                .ToList();
-        StateHasChanged();
+        NavigationManager.NavigateTo("/addcameraman", true);
     }
 
 }

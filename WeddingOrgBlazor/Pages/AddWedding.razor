@@ -1,12 +1,11 @@
-﻿@*@page "/addwedding"
+﻿@page "/addwedding"
 @inject WeddingOrg.Controllers.WeddingsController WeddingsController
 @inject WeddingOrg.Controllers.PhotographersController PhotographerController
 @inject WeddingOrg.Controllers.RestaurantsController RestaurantsController
 @inject WeddingOrg.Controllers.CameramenController CameramenController
-@inject WeddingOrg.Repositories.IWeddingsRepository IWEddingsRepository
 @inject NavigationManager Navigation
 @inject IJSRuntime JSRuntime
-@using WeddingOrg.DTOs
+@using WeddingOrg.Application.Models.Weddings.DTOs;
 @inject NavigationManager NavigationManager
 
 <PageTitle>Dodaj wesele</PageTitle>
@@ -115,15 +114,15 @@
 @code {
     protected override async Task OnInitializedAsync()
     {
-        Weddings = (await WeddingsController.GetWeddings()).ToList();
-        Photographers = (await PhotographerController.GetPhotographers()).ToList();
-        Cameramen = (await CameramenController.GetCameramen()).ToList();        
-        Restaurants = (await RestaurantsController.GetRestaurants()).ToList();
+        Weddings = (await WeddingsController.GetWeddings(default)).ToList();
+        Photographers = (await PhotographerController.GetPhotographers(default)).ToList();
+        Cameramen = (await CameramenController.GetCameramen(default)).ToList();        
+        Restaurants = (await RestaurantsController.GetRestaurants(default)).ToList();
     }
-    private List<WeddingOrg.Models.Wedding> Weddings = new();
-    private List<WeddingOrg.Models.Cameraman> Cameramen = new();
-    private List<WeddingOrg.Models.Photographer> Photographers = new();
-    private List<WeddingOrg.Models.Restaurant> Restaurants = new();
+    private List<WeddingOrg.Domain.Entities.Wedding> Weddings = new();
+    private List<WeddingOrg.Domain.Entities.Cameraman> Cameramen = new();
+    private List<WeddingOrg.Domain.Entities.Photographer> Photographers = new();
+    private List<WeddingOrg.Domain.Entities.Restaurant> Restaurants = new();
     private void ResetForm()
     {
         addWedding = new FilledInfo();
@@ -154,20 +153,22 @@
     FilledInfo addWedding = new FilledInfo();
     async void OnSubmit(FilledInfo arg)
     {
-        var updateWeddingDto = new UpdateWeddingBrideGroomDto(addWedding.DateOfSigning, addWedding.DateOfWedding, 
+        var updateWeddingDto = new WeddingDto(addWedding.DateOfSigning, addWedding.DateOfWedding, 
             addWedding.BrideName, addWedding.BridePhoneNumber, addWedding.BrideEmail, addWedding.BrideInstagram, 
             addWedding.GroomName, addWedding.GroomPhoneNumber, addWedding.GroomEmail, addWedding.GroomInstagram);
+
         var result = await WeddingsController.CreateWedding(updateWeddingDto);
-        await PhotographerController.AddPhotographerToWedding(result, addWedding.SelectedPhotographerId);
-        await CameramenController.AddCameramanToWedding(result, addWedding.SelectedCameramanId);
-        await RestaurantsController.AddRestaurantToWedding(result, addWedding.SelectedRestaurantId);
-        Weddings = (await WeddingsController.GetWeddings()).ToList();
+
+        await WeddingsController.AddPhotographerToWedding(addWedding.SelectedPhotographerId, result);
+        await WeddingsController.AddCameramanToWedding(addWedding.SelectedCameramanId, result);
+        await WeddingsController.AddRestaurantToWedding(addWedding.SelectedRestaurantId, result);
+
+        Weddings = (await WeddingsController.GetWeddings(default)).ToList();
         StateHasChanged();
-        NavigationManager.NavigateTo("/addwedding", true);
     } 
     public string Filter { get; set; }
     public bool IsVisible(
-        WeddingOrg.Models.Wedding wedding1)
+        WeddingOrg.Domain.Entities.Wedding wedding1)
     {
         if (string.IsNullOrEmpty(Filter))
             return true;
@@ -206,8 +207,8 @@
         {
             await WeddingsController.DeleteWeddingById(weddings.Id, default);
         }
-        Weddings = (await WeddingsController.GetWeddings()).ToList();
+        Weddings = (await WeddingsController.GetWeddings(default)).ToList();
         StateHasChanged();
     }
     
-}*@
+}

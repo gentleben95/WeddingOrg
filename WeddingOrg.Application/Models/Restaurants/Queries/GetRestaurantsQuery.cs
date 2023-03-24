@@ -1,11 +1,12 @@
 ﻿using MediatR;
 using WeddingOrg.Application.Interfaces;
 using WeddingOrg.Application.Models.Restaurants.DTOs;
+using WeddingOrg.Domain.Entities;
 
 namespace WeddingOrg.Application.Models.Restaurants.Queries
 {
-    public record GetRestaurantsQuery : IRequest<IEnumerable<RestaurantDto>>;
-    public class GetRestaurantsQueryHandler : IRequestHandler<GetRestaurantsQuery, IEnumerable<RestaurantDto>>
+    public record GetRestaurantsQuery : IRequest<IEnumerable<Restaurant>>;
+    public class GetRestaurantsQueryHandler : IRequestHandler<GetRestaurantsQuery, IEnumerable<Restaurant>>
     {
         private readonly IWeddingsRepository _weddingsRepository;
 
@@ -14,15 +15,9 @@ namespace WeddingOrg.Application.Models.Restaurants.Queries
             _weddingsRepository = weddingsRepository;
         }
 
-        public async Task<IEnumerable<RestaurantDto>> Handle(GetRestaurantsQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Restaurant>> Handle(GetRestaurantsQuery request, CancellationToken cancellationToken)
         {
-            var restaurant = await _weddingsRepository.GetRestaurants(cancellationToken);
-
-            var restaurantDto = restaurant.Select(c =>
-            {
-               return new RestaurantDto(c.Name, c.Facebook, c.Instagram);
-            });
-            return restaurantDto;
+            return await _weddingsRepository.GetRestaurants(cancellationToken);
         }
     }
 }

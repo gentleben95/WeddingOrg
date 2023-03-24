@@ -3,6 +3,7 @@ using MediatR;
 using WeddingOrg.Application.Models.Cameramen.Queries;
 using WeddingOrg.Application.Models.Cameramen.Commands;
 using WeddingOrg.Application.Models.Cameramen.DTOs;
+using WeddingOrg.Domain.Entities;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WeddingOrg.Controllers
@@ -19,7 +20,7 @@ namespace WeddingOrg.Controllers
         }
         // GET: api/<WeddingsController>
         [HttpGet]
-        public async Task<IEnumerable<CameramanDto>> GetCameramen(CancellationToken cancellationToken)
+        public async Task<IEnumerable<Cameraman>> GetCameramen(CancellationToken cancellationToken)
         {
             return await _mediator.Send(new GetCameramenQuery());
         }

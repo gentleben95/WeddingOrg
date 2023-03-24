@@ -30,7 +30,7 @@ namespace WeddingOrg.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<RestaurantDto>> GetRestaurants(CancellationToken cancellationToken)
+        public async Task<IEnumerable<Restaurant>> GetRestaurants(CancellationToken cancellationToken)
         {
             return await _mediator.Send(new GetRestaurantsQuery());
         }

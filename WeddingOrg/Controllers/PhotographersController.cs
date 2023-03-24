@@ -3,6 +3,7 @@ using MediatR;
 using WeddingOrg.Application.Models.Photographers.Queries;
 using WeddingOrg.Application.Models.Photographers.DTOs;
 using WeddingOrg.Application.Models.Photographers.Commands;
+using WeddingOrg.Domain.Entities;
 
 namespace WeddingOrg.Controllers
 {
@@ -18,7 +19,7 @@ namespace WeddingOrg.Controllers
         }
         // GET: api/<WeddingsController>
         [HttpGet]
-        public async Task<IEnumerable<PhotographerDto>> GetPhotographers(CancellationToken cancellationToken)
+        public async Task<IEnumerable<Photographer>> GetPhotographers(CancellationToken cancellationToken)
         {
             return await _mediator.Send(new GetPhotographersQuery());
         }

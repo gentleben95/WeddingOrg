@@ -1,6 +1,7 @@
-﻿@*@page "/addphotographer"
+﻿@page "/addphotographer"
 @inject WeddingOrg.Controllers.PhotographersController PhotographersController
-@using WeddingOrg.DTOs
+@using WeddingOrg.Application.Models.Photographers
+@using WeddingOrg.Application.Models.Photographers.DTOs;
 @inject NavigationManager NavigationManager
 
 <PageTitle>Dodaj fotografa</PageTitle>
@@ -68,9 +69,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Photographers = (await PhotographersController.GetPhotographers()).ToList();
+        Photographers = (await PhotographersController.GetPhotographers(default)).ToList();
     }
-    private List<WeddingOrg.Models.Photographer> Photographers = new();
+    private List<WeddingOrg.Domain.Entities.Photographer> Photographers = new();
 
     public class FilledInfo
     {
@@ -81,15 +82,15 @@
     FilledInfo fbInsta = new FilledInfo();
     async void OnSubmit(FilledInfo arg)
     {
-        var updatePhotographerDto = new UpdatePhotographerDto(fbInsta.Name, fbInsta.Facebook, fbInsta.Instagram);
+        var updatePhotographerDto = new PhotographerDto(fbInsta.Name, fbInsta.Facebook, fbInsta.Instagram);
         await PhotographersController.CreatePhotographer(updatePhotographerDto);
-        Photographers = (await PhotographersController.GetPhotographers()).ToList();
+        Photographers = (await PhotographersController.GetPhotographers(default)).ToList();
         StateHasChanged();
         NavigationManager.NavigateTo("/addphotographer", true);
     }
 
     public string Filter { get; set; }
-    public bool IsVisible(WeddingOrg.Models.Photographer photographer1)
+    public bool IsVisible(WeddingOrg.Domain.Entities.Photographer photographer1)
     {
         if (string.IsNullOrEmpty(Filter))
             return true;
@@ -116,7 +117,7 @@
         {
             await PhotographersController.DeletePhotographerById(restaurant.Id, default);
         }
-        Photographers = (await PhotographersController.GetPhotographers()).ToList();
+        Photographers = (await PhotographersController.GetPhotographers(default)).ToList();
         StateHasChanged();
     }
-}*@
+}

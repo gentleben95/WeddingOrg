@@ -4,11 +4,11 @@ using WeddingOrg.Application.Interfaces;
 namespace WeddingOrg.Application.Models.Weddings.Commands
 {
     public record DeleteWeddingCommand(int WeddingId) : IRequest<int>;
-    public class DeleteWeddingCommandHanlder : IRequestHandler<DeleteWeddingCommand, int>
+    public class DeleteWeddingCommandHandler : IRequestHandler<DeleteWeddingCommand, int>
     {
         private readonly IWeddingsRepository _weddingsRepository;
 
-        public DeleteWeddingCommandHanlder(IWeddingsRepository weddingsRepository)
+        public DeleteWeddingCommandHandler(IWeddingsRepository weddingsRepository)
         {
             _weddingsRepository = weddingsRepository;
         }
