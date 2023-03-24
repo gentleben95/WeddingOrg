@@ -12,13 +12,12 @@ Project is created with:
 * HTML
 * CSS
 
-## In progress
-Currently working at:
-1. Clean architecture (done in branch: feat. init)
-2. CQRS+MediatR
-3. Validation
-4. Unit Tests
-5. Blazor: to call http instead of Controllers.
+## Used in project:
+* Clean Architecture
+* EF Core
+* CQRS
+* MediatR
+* The project was also deployed on Azure, but becuase of costs I have removed it.
 
 ## Screenshots
 
