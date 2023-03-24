@@ -5,15 +5,14 @@ With this app you are able to get, create, change and delete weddings, photograp
 
 You can see the finished project on: https://weddinggroup2.azurewebsites.net/
 
-## Technologies
-Project is created with:
-* .Net 7.0 (C#)
+## Used in project:
+* .Net 7
+* WebAPI
 * Blazor
 * HTML
-* CSS
-
-## Used in project:
 * Clean Architecture
+* WebApi
+* 
 * EF Core
 * CQRS
 * MediatR
