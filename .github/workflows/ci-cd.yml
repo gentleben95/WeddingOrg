@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu
+    runs-on: windows-latest
 
     steps:
     - name: Checkout repository
