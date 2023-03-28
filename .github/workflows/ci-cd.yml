@@ -1,0 +1,38 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - master
+    schedule: 
+      - cron: '0 */12 * * *'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '7.0.x'
+
+    - name: Build and Test
+      run: |
+        dotnet restore ./WeddingOrgBlazor.csproj
+        dotnet build ./WeddingOrgBlazor.csproj --configuration Release --no-restore
+        dotnet test ./WeddingOrgBlazor.csproj --no-restore --verbosity normal
+
+    - name: Publish
+      run: |
+        dotnet publish --configuration Release --output ./publish --no-restore
+
+    - name: Deploy to Azure
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: <WeddingOrgApp>
+        publish-profile: ${{secrets.AZURE_WEBAPP_PUBLISH_PROFILE03}}
+        package: ./publish
