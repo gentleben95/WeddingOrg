@@ -22,9 +22,9 @@ jobs:
 
     - name: Build and Test
       run: |
-        dotnet restore ./WeddingOrgBlazor/WeddingOrgBlazor.csproj
-        dotnet build ./WeddingOrgBlazor/WeddingOrgBlazor.csproj --configuration Release --no-restore
-        dotnet test ./WeddingOrgBlazor/WeddingOrgBlazor.csproj --no-restore --verbosity normal
+        dotnet restore
+        dotnet build --configuration Release --no-restore
+        dotnet test --no-restore --verbosity normal
 
     - name: Publish
       run: |
