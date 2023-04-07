@@ -16,7 +16,7 @@ steps:
 - task: NuGetToolInstaller@1
 >>>>>>> 69334ca575171bacc139ddcff682ff89400c1969
 
-- task: NuGetCommand@2
+- task: NuGetCommand@2 
   inputs:
     restoreSolution: '$(solution)'
 
