@@ -7,7 +7,6 @@ namespace WeddingOrg.Application.Models.Cameramen.Commands
 {
     public record CreateCameramanCommand(CameramanDto CameramanDto) : IRequest<CameramanDto>;
     
-
     public class CreateCameramanCommandValidator : AbstractValidator<CreateCameramanCommand>
     {
         public CreateCameramanCommandValidator()

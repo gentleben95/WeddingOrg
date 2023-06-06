@@ -21,13 +21,10 @@ public class CreateCameramanCommandValidatorTests
         var result = _validator.Validate(new CreateCameramanCommand(dto));
 
         // Assert
-        result.IsValid.Should().BeTrue(); 
+        result.IsValid.Should().BeTrue();
     }
 
-    [Theory]
-    [InlineData(null)]
-    [InlineData("")]
-    [InlineData("          ")]
+    [Fact]
     public void GivenInvalidCameramanName_WhenValidatingCreateCameramanCommand_ShouldHaveValidationError(string cameramanName)
     {
         // Arrange

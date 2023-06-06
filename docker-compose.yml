@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  weddingorgblazor:
+    image: ${DOCKER_REGISTRY-}weddingorgblazor
+    build:
+      context: .
+      dockerfile: WeddingOrgBlazor/Dockerfile
